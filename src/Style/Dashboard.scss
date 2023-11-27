@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    z-index: 1000;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.icon-container {
+    gap: 5px;
+}
+.dashboard-area {
+    padding-left: 16rem;
+  
+    @media screen and (max-width: 767px) {
+      padding-left: 5rem; 
+    }
+  }
+  
+
+.component-1{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.component-2{
+    display: flex;
+    justify-content: center;
+}
+
+.custom-span{
+    text-decoration: underline white;
+    color: black;
+}
+
+  
