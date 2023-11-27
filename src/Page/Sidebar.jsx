@@ -139,11 +139,11 @@ const Sidebar = () => {
                   <div className="ps-2">Member List</div>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/employer-registration-form" className="submenu link">
                   <div className="ps-2">Employer Form</div>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           )}
         </li>
