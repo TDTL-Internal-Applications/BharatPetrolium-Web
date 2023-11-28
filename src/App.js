@@ -15,6 +15,7 @@ import LoanHistory from "./Page/LoanHistory";
 import EmployeeReg from "./Page/EmployeeReg";
 import RegisterMembers from "./Page/RegisterMembers"
 import TransactionHistory from "./Page/TransactionHistory";
+import LoanScheme from "./Page/LoanScheme";
 
 function App() {
   return (
@@ -45,6 +46,8 @@ function App() {
           <Route path="/Dashboard" element={<Chart />} />
           <Route path="/loan-history" element={<LoanHistory />} />
 
+          {/* Loan Scheme */}
+          <Route path="/loan-scheme" element={<LoanScheme/>} />
 
         </Routes>
       </Router>
