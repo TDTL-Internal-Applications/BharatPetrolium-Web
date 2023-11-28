@@ -210,7 +210,7 @@ const Sidebar = () => {
         )}
 
         <li>
-          <Link to="/scheme" className="link">
+          <Link to="/loan-scheme" className="link">
             <i class="bx bxs-offer"></i>
             <span className="link_name">Scheme</span>
           </Link>
