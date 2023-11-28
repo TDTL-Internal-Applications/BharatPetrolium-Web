@@ -10,11 +10,15 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 import Header from "../components/Header";
+<<<<<<< HEAD
 import { useReactToPrint } from "react-to-print";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Input } from 'react-data-table-component';
 
+=======
+// import { useReactToPrint } from "react-to-print";
+>>>>>>> 8e9156a0cb88f76e335b0130e83916e88ceac43e
 
 export default function LoanScheme() {
   // const componentPDF = useRef()
