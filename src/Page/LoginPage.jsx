@@ -64,7 +64,7 @@ export default function LoginPage() {
           theme: "light",
         });
       } else if (loginStatus === "User not found") {
-        toast.error("Invalid Email", {
+        toast.error("Invalid ID", {
           position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,

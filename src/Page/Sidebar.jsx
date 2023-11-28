@@ -6,6 +6,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
 import { BsPersonSquare } from "react-icons/bs";
+import { RiLuggageDepositLine } from "react-icons/ri";
 import Logo from "../Images/LOGO.png";
 
 const Sidebar = () => {
@@ -15,17 +16,21 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [showSubmenus, setShowSubmenus] = useState(false);
   const [showMemberSubmenus, setShowMemberSubmenus] = useState(false);
+  const [showLoanSubmenus, setShowLoanSubmenus] = useState(false);
+  const [showDepositmenus, setShowDepositmenus] = useState(false);
 
   const toggleMemberSubmenus = () => {
     setShowMemberSubmenus(!showMemberSubmenus);
     setShowSubmenus(false);
     setShowLoanSubmenus(false);
+    setShowDepositmenus(false);
   };
 
   const toggleSubmenus = () => {
     setShowSubmenus(!showSubmenus);
     setShowLoanSubmenus(false);
     setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
   };
 
   const menuBtnChange = () => {
@@ -61,13 +66,19 @@ const Sidebar = () => {
     setShowSubmenus(false);
     setShowLoanSubmenus(false);
     setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
   };
-
-  const [showLoanSubmenus, setShowLoanSubmenus] = useState(false);
-
   const toggleLoanSubmenus = () => {
     setShowLoanSubmenus(!showLoanSubmenus);
     setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
+  };
+
+  const toggleDepositmenus = () => {
+    setShowDepositmenus(!showDepositmenus);
+    setShowSubmenus(false);
+    setShowLoanSubmenus(false);
     setShowMemberSubmenus(false);
   };
 
@@ -144,6 +155,39 @@ const Sidebar = () => {
                   <div className="ps-2">Employer Form</div>
                 </Link>
               </li> */}
+            </ul>
+          )}
+        </li>
+        <li onClick={stopPropagation}>
+          <Link to="" className="link" onClick={toggleDepositmenus}>
+            <i>
+              <RiLuggageDepositLine />
+            </i>
+            <span className="link_name">Deposits</span>
+            <i className={`dropdown-icon ${showDepositmenus ? "open" : ""}`}>
+              <FaAngleDown />
+            </i>
+          </Link>
+          <span className="tooltip">Deposits</span>
+
+          {showDepositmenus && (
+            <ul>
+              <li>
+                <Link to="/term-deposit" className="submenu link">
+                  <div className="ps-2">Term Deposit</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/cash-certificate-deposit" className="submenu link">
+                  <div className="ps-2">Cash Certificate</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/recurring-deposit" className="submenu link">
+                  <div className="ps-2">Recurring Deposit</div>
+                </Link>
+              </li>
+              {/* Add more deposit submenu items as needed */}
             </ul>
           )}
         </li>
