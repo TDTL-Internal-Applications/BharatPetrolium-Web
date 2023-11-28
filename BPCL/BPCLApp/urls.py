@@ -1,5 +1,5 @@
 from django.urls import path
-from .web_API import views,login_view,member_registration,member_login,member_reg,member_data,mail_verification,update_member,delete_member,reset_password,emp_reg,emp_data,roles_list,empMember_join,assign_roles,MemberDashboard_data,transaction,member_names,fetch_memberid,total_amt,getDataMember,total_trans_per_month
+from .web_API import views,login_view,member_registration,member_login,member_reg,member_data,mail_verification,update_member,delete_member,reset_password,emp_reg,emp_data,roles_list,empMember_join,assign_roles,MemberDashboard_data,transaction,member_names,fetch_memberid,total_amt,getDataMember,total_trans_per_month,otp_msg,new_transaction,transaction_list,member_transaction
 from .mobile_API import login_view_api
 
 
