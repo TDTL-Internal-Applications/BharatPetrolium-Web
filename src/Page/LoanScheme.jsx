@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import DataTable from "react-data-table-component";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 // import XLSX from 'xlsx';
 import * as XLSX from 'xlsx';
+import "../Style/Dashboard.css";
 import Sidebar from "./Sidebar";
 import { IoIosDownload } from "react-icons/io";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
+import Header from "../components/Header";
+import { useReactToPrint } from "react-to-print";
 
 export default function LoanScheme() {
+// const componentPDF = useRef()
+
   const [data, setData] = useState([
     {
       id: 1,
@@ -87,7 +92,6 @@ export default function LoanScheme() {
   };
 
   const columns = [
-    
     {
       name: "ID",
       selector: (row) => row.id,
@@ -125,8 +129,8 @@ export default function LoanScheme() {
             className="btn btn-primary mr-2"
             data-toggle="modal"
             data-target="#exampleModalCenter"
-          > 
-          <TiEdit  size={20}/>
+          >
+            <TiEdit size={20} />
             {/* <AiFillEdit size={20} color="" /> */}
           </button>
           <button className="btn btn-danger">
@@ -174,47 +178,54 @@ export default function LoanScheme() {
       },
     },
   };
- 
+
   return (
     <>
-      <Sidebar></Sidebar>
-    <div className="container-fluid dashboard-area d-flex">
-      <div className="row main-content p-4">
-        <div className="col-sm-12">
-          <div style={{ marginBottom: "10px" }}>
+      <Sidebar />
+      <div className="container-fluid dashboard-area d-flex">
+        <div className="row main-content p-4">
+          <Header />
+          <div className="col-6 text-start">
+            <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
+             Loan Scheme 
+            </h2>
+            </div>
+            <div className="col-6 text-end">
             <button
-              type="button"
-              className="btn btn-success mr-2"
-              onClick={handleExportToExcel}
-            >
-             <SiMicrosoftexcel size={20} />
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={handleDeleteSelected}
-            >
-            <RiDeleteBinLine size={20} />
-              {/* <AiFillDelete size={20} color="white" /> */}
-            </button>
+                type="button"
+                className="btn btn-success mr-2"
+                onClick={handleExportToExcel}
+              >
+                <SiMicrosoftexcel size={20} />
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDeleteSelected}
+              >
+                <RiDeleteBinLine size={20} />
+                {/* <AiFillDelete size={20} color="white" /> */}
+              </button>
+              </div>
+        
+         
+            {dataLoaded ? (
+              <DataTable
+                data={data}
+                columns={columns}
+                style={{ textAlign: "center" }}
+                customStyles={tableCustomStyles}
+                pagination
+                selectableRows
+                onSelectedRowsChange={handleRowSelected}
+              />
+            ) : (
+              <p>Loading data...</p>
+            )}
           </div>
-          {dataLoaded ? (
-            <DataTable
-              data={data}
-              columns={columns}
-              style={{ textAlign: "center" }}
-              customStyles={tableCustomStyles}
-              pagination
-              selectableRows
-              onSelectedRowsChange={handleRowSelected}
-            />
-          ) : (
-            <p>Loading data...</p>
-          )}
         </div>
-      </div>
-    </div>
+     
     </>
-    
+
   );
 }
