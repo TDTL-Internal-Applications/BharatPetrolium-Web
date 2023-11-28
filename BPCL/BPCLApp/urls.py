@@ -44,5 +44,11 @@ urlpatterns = [
     
     path('total_amt/<int:member_id>/', total_amt.calculate_total_amount, name='total_amt'),
     path('total_trans_per_month/', total_trans_per_month.calculate_transaction_stats, name='transaction_view'),
-    
+    path('update_member/<int:member_id>/', update_member.update_member, name='update_member'),
+    path('delete_member/<int:member_id>/', delete_member.delete_member, name='update_member_status'),
+    path('reset_password/<int:member_id>/', reset_password.reset_password, name='reset_password'),
+    path('sms/<int:member_id>/', otp_msg.send_whatsapp_message, name='sms_integration'),
+    path('new_transaction/', new_transaction.new_transaction, name='new_transaction'),
+    path('transaction_list/', transaction_list.transaction_list, name='transaction_list'),
+    path('member_transaction/<int:member_id>/', member_transaction.member_transaction, name='member_transaction'),
 ]
