@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import DataTable from "react-data-table-component";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 // import XLSX from 'xlsx';
@@ -11,9 +11,15 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 import Header from "../components/Header";
 import { useReactToPrint } from "react-to-print";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Input } from 'react-data-table-component';
+
 
 export default function LoanScheme() {
-// const componentPDF = useRef()
+  // const componentPDF = useRef()
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   const [data, setData] = useState([
     {
@@ -40,21 +46,43 @@ export default function LoanScheme() {
       maximumAmount: 50000,
       interestRate: 5,
     },
+    {
+      id: 5,
+      schemeName: " Loan",
+      maximumAmount: 50000,
+      interestRate: 5,
+    },
+    {
+      id: 6,
+      schemeName: "Lakhapati Yojan",
+      maximumAmount: 50000,
+      interestRate: 5,
+    },
+    {
+      id: 7,
+      schemeName: "Dam DUppt Yojana",
+      maximumAmount: 50000,
+      interestRate: 5,
+    },
+    {
+      id: 8,
+      schemeName: "Midterm",
+      maximumAmount: 50000,
+      interestRate: 5,
+    },
     // Add more sample data as needed
   ]);
 
-  const [dataLoaded, setDataLoaded] = useState(true); // Set to true since data is provided
+  const [dataLoaded, setDataLoaded] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [filteredData, setFilteredData] = useState(data);
 
   const handleRowSelected = (state) => {
-    // Get the selected rows and update the state
     setSelectedRows(state.selectedRows);
+    setSearchTerm('');
   };
 
   const handleExportToExcel = () => {
-    // Use selectedRows for exporting only the filtered data
-    const filteredData = selectedRows.length > 0 ? selectedRows : data;
-
     const dataSet = [
       {
         columns: [
@@ -83,12 +111,40 @@ export default function LoanScheme() {
   };
 
   const handleDeleteSelected = () => {
-    // Filter out the selected rows from the data
-    const newData = data.filter((row) => !selectedRows.includes(row));
+    if (selectedRows.length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "No rows selected",
+        text: "Please select rows to delete.",
+      });
+      return;
+    }
 
-    // Update the data and reset selectedRows
-    setData(newData);
-    setSelectedRows([]);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover the selected rows!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newData = data.filter((row) => !selectedRows.includes(row));
+        setData(newData);
+        setSelectedRows([]);
+        setFilteredData(newData);
+        Swal.fire("Deleted!", "Selected rows have been deleted.", "success");
+      }
+    });
+  };
+
+  const handleSearch = () => {
+    const searchTermLowerCase = searchTerm.toLowerCase();
+    const filtered = data.filter((row) =>
+      row.schemeName.toLowerCase().includes(searchTermLowerCase)
+    );
+    setFilteredData(filtered);
   };
 
   const columns = [
@@ -131,10 +187,9 @@ export default function LoanScheme() {
             data-target="#exampleModalCenter"
           >
             <TiEdit size={20} />
-            {/* <AiFillEdit size={20} color="" /> */}
           </button>
-          <button className="btn btn-danger">
-            <RiDeleteBinLine size={20} color="" />
+          <button className="btn btn-danger" onClick={handleDeleteSelected}>
+            <RiDeleteBinLine size={20} />
           </button>
         </div>
       ),
@@ -182,49 +237,83 @@ export default function LoanScheme() {
   return (
     <>
       <Sidebar />
+      <Sidebar />
       <div className="container-fluid dashboard-area d-flex">
         <div className="row main-content p-4">
           <Header />
           <div className="col-6 text-start">
             <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
-             Loan Scheme 
+              Loan Scheme
             </h2>
-            </div>
-            <div className="col-6 text-end">
+          </div>
+          <div className="col-2 text-start px-0">
+            <input
+              type="text"
+              placeholder="Search schemes"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="form-control"
+            />
+          </div>
+          <div className="col-2 text-start px-0">
             <button
-                type="button"
-                className="btn btn-success mr-2"
-                onClick={handleExportToExcel}
-              >
-                <SiMicrosoftexcel size={20} />
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleDeleteSelected}
-              >
-                <RiDeleteBinLine size={20} />
-                {/* <AiFillDelete size={20} color="white" /> */}
-              </button>
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+          </div>
+          <div className="col-2 text-end">
+            <button
+              type="button"
+              className="btn btn-success mr-2"
+              onClick={handleExportToExcel}
+            >
+              <SiMicrosoftexcel size={20} />
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleDeleteSelected}
+            >
+              <RiDeleteBinLine size={20} />
+            </button>
+          </div>
+
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-12 py-2">
+                {dataLoaded ? (
+                  <DataTable
+                    data={filteredData}
+                    columns={columns}
+                    style={{ textAlign: "center" }}
+                    customStyles={tableCustomStyles}
+                    pagination
+                    selectableRows
+                    onSelectedRowsChange={handleRowSelected}
+                  />
+                ) : (
+                  <p>Loading data...</p>
+                )}
               </div>
-        
-         
-            {dataLoaded ? (
-              <DataTable
-                data={data}
-                columns={columns}
-                style={{ textAlign: "center" }}
-                customStyles={tableCustomStyles}
-                pagination
-                selectableRows
-                onSelectedRowsChange={handleRowSelected}
-              />
-            ) : (
-              <p>Loading data...</p>
-            )}
+              <div className="col-12 ps-2 text-start">
+                <Link
+                  to="/Home"
+                  style={{
+                    textDecoration: "underline 1px solid white",
+                    color: "dodgerblue",
+                  }}
+                >
+                  Go To Home
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-     
+      </div>
+
     </>
 
   );
