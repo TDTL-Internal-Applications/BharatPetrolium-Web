@@ -1,5 +1,5 @@
 from django.urls import path
-from .web_API import views,login_view,member_registration,member_login,member_reg,member_data,mail_verification,update_member,delete_member,reset_password,emp_reg,emp_data,roles_list,empMember_join,assign_roles,MemberDashboard_data,transaction,member_names,fetch_memberid,total_amt,getDataMember,total_trans_per_month,otp_msg,new_transaction,transaction_list,member_transaction
+from .web_API import views,login_view,member_registration,member_login,member_reg,member_data,mail_verification,update_member,delete_member,reset_password,emp_reg,emp_data,roles_list,empMember_join,assign_roles,MemberDashboard_data,transaction,member_names,fetch_memberid,total_amt,getDataMember,total_trans_per_month,otp_msg,new_transaction,transaction_list,member_transaction,get_recurring_deposits,insert_RD_trans,shares_reg,shares_history
 from .mobile_API import login_view_api
 
 
@@ -48,4 +48,8 @@ urlpatterns = [
     path('new_transaction/', new_transaction.new_transaction, name='new_transaction'),
     path('transaction_list/', transaction_list.transaction_list, name='transaction_list'),
     path('member_transaction/<int:member_id>/', member_transaction.member_transaction, name='member_transaction'),
+    path('get_recurring_deposits/<int:member_id>/', get_recurring_deposits.get_recurring_deposits, name='get_recurring_deposits'),
+    path('insert_RD_trans/', insert_RD_trans.insert_RD_trans, name='insert_RD_trans'),
+    path('shares_reg/<int:member_id>/', shares_reg.shares_reg, name='shares_reg'),
+    path('shares_history/<int:member_id>/', shares_history.shares_history, name='shares_history'),
 ]
