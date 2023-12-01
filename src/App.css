@@ -104,6 +104,7 @@
 .form-floating>.form-control, .form-floating>.form-control-plaintext {
   padding: 1rem 0.75rem;
   box-shadow: none;
+  border-radius: 9px;
   /* outline: rgb(0, 0, 0) !important;
   border: black !important; */
 }
