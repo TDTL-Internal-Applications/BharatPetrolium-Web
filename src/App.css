@@ -54,3 +54,65 @@
   border: none !important;
 }
 
+.custom-swal-button-share {
+  background-color: var(--success) !important;
+  /* padding: 10px 40px 10px 40px !important;
+  border: none !important;
+  color: white;
+  font-size: 1.5rem !important;
+  outline: none !important;
+  font-weight: 600;
+  border-radius: 30px !important; */
+}
+
+.custom-swal-button-share:focus{
+  outline: none !important;
+  border: none !important;
+}
+
+/* loader.css */
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: 
+    radial-gradient(farthest-side, dodgerblue 94%, #0000) top/8px 8px no-repeat,
+    conic-gradient(#0000 30%, #ffa516);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+  animation: l13 1s infinite linear;
+  border: 4px solid dodgerblue; 
+}
+
+@keyframes l13 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.form-open {
+  transition: height 0.3s ease-in-out;
+  height: auto;
+  overflow: hidden;
+}
+
+
+/* .form-floating label {
+  height: 2.5rem !important; 
+} */
+
+.form-floating>.form-control, .form-floating>.form-control-plaintext {
+  padding: 1rem 0.75rem;
+  box-shadow: none;
+  /* outline: rgb(0, 0, 0) !important;
+  border: black !important; */
+}
+
+.header-content{
+  display: flex;
+  justify-content: end;
+
+  @media screen and (max-width:576px) {
+    justify-content: center;
+  }
+}
