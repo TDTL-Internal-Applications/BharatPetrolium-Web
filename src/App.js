@@ -13,9 +13,13 @@ import NewLoan from "./Page/NewLoan";
 import Chart from "./Page/Chart";
 import LoanHistory from "./Page/LoanHistory";
 import EmployeeReg from "./Page/EmployeeReg";
-import RegisterMembers from "./Page/RegisterMembers"
+import RegisterMembers from "./Page/RegisterMembers";
 import TransactionHistory from "./Page/TransactionHistory";
 import LoanScheme from "./Page/LoanScheme";
+import Shareholder from "./Page/Shareholder";
+import Loaninterest from "./Page/Loaninterest";
+import Recurring from "./MemberPages/Recurring";
+import RecurringDeposit from "./Page/RecurringDeposit";
 
 function App() {
   return (
@@ -35,7 +39,11 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/employer-registration-form" element={<EmployeeReg />} />
           <Route path="/member-list" element={<RegisterMembers />} />
-          
+          <Route path="/purchase-shares" element={<Shareholder />} />
+
+          {/* Deposit */}
+          <Route path="/recurring-deposit" element={<RecurringDeposit />} />
+
           {/* Sub Menu of Transaction */}
           <Route path="/new-transaction" element={<NewTransaction />} />
           <Route path="/transaction-history" element={<TransactionHistory />} />
@@ -47,8 +55,11 @@ function App() {
           <Route path="/loan-history" element={<LoanHistory />} />
 
           {/* Loan Scheme */}
-          <Route path="/loan-scheme" element={<LoanScheme/>} />
+          <Route path="/loan-scheme" element={<LoanScheme />} />
+          <Route path="/loan-interest" element={<Loaninterest />} />
 
+          {/* Members Pages */}
+          <Route path="/member-rd" element={<Recurring />} />
         </Routes>
       </Router>
     </div>

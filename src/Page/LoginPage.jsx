@@ -41,17 +41,34 @@ export default function LoginPage() {
       });      return;
     }
     try {
-      const response = await axios.post("http://127.0.0.1:8000/login_view/", {
+      const response = await axios.post("http://127.0.0.1:8000/member_login/", {
         email: email,
         password: password,
       });
       console.log("Login successful", response.data);
       const jsonData = response.data;
       const loginStatus = jsonData.response.Login;
-      const data1 = jsonData.data.member_name;
-      localStorage.setItem("membersData", data1);
+      const data1 = jsonData.data.first_name;
+      const data2 = jsonData.data.last_name;
+      const data4 =jsonData.data.member_email;
+      const member_name = data1 +" "+ data2
+      const data5 = jsonData.data.id;
+      const data3 = jsonData.role_name;
 
-      console.log(localStorage.getItem("membersData"));
+      localStorage.setItem("name", member_name);
+      localStorage.setItem("email", data4);
+      localStorage.setItem("role_name", data3);
+      localStorage.setItem("member_id", data5);
+
+      console.log(member_name)
+
+
+
+      console.log(localStorage.getItem("name"));
+      console.log(localStorage.getItem("email"));
+      console.log(localStorage.getItem("role_name"));
+
+
       if (loginStatus === "Invalid Password") {
         toast.error("Invalid Password", {
           position: "bottom-center",

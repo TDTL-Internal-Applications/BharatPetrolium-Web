@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "../components/Header";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
@@ -98,6 +97,7 @@ export default function MemberReg1() {
           // Form 3 fields
           memberNo: "",
           memberName: "",
+          memberShipFee: "",
           ifscCode: "",
           bankSavingAcNo: "",
           bankName: "",
@@ -218,6 +218,7 @@ export default function MemberReg1() {
     memberNo: "",
     memberName: "",
     ifscCode: "",
+    memberShipFee: 100,
     bankSavingAcNo: "",
     bankName: "",
     branchName: "",
@@ -227,25 +228,28 @@ export default function MemberReg1() {
     const { name, value } = e.target;
     setFormData((prevData) => {
       let updatedFormData = { ...prevData, [name]: value };
-  
+
       // Calculate age if birthDate is provided
-      if (name === 'birthDate') {
+      if (name === "birthDate") {
         const birthDate = new Date(value);
         const today = new Date();
         const age = today.getFullYear() - birthDate.getFullYear();
-  
+
         // Adjust age if birthday hasn't occurred yet this year
-        if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+        if (
+          today.getMonth() < birthDate.getMonth() ||
+          (today.getMonth() === birthDate.getMonth() &&
+            today.getDate() < birthDate.getDate())
+        ) {
           updatedFormData = { ...updatedFormData, age: age - 1 };
         } else {
           updatedFormData = { ...updatedFormData, age };
         }
       }
-  
+
       return updatedFormData;
     });
   };
-  
 
   return (
     <>
@@ -257,7 +261,7 @@ export default function MemberReg1() {
           {/* Heading */}
           <div className="container d-flex text-start w-100 pb-1">
             <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
-              Member Registration Form <MdOutlineKeyboardArrowDown />
+              Member Registration Form 
             </h2>
           </div>
 
@@ -401,17 +405,6 @@ export default function MemberReg1() {
                       </div>
                       <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
                         <label for="text">Blood Group</label>
-                        {/* <input
-                          type="text"
-                          name="bloodGroup"
-                          className="form-control no-outline"
-                          value={formData.bloodGroup}
-                          onChange={handleInputChange}
-                          style={{
-                            backgroundColor: "whitesmoke",
-                            borderColor: "none",
-                          }}
-                        /> */}
                         <select
                           name="bloodGroup"
                           className="form-control no-outline"
@@ -539,7 +532,8 @@ export default function MemberReg1() {
                     type="button"
                     onClick={handleNextClick}
                     style={{
-                      padding: "10px 30px 10px 30px",
+                      padding: "7px 30px 7px 30px",
+
                       backgroundColor: "dodgerblue",
                       color: "white",
                       fontWeight: "bold",
@@ -818,7 +812,8 @@ export default function MemberReg1() {
                     onClick={handleBackClick}
                     style={{
                       margin: "0 10px",
-                      padding: "10px 30px 10px 30px",
+                      padding: "7px 30px 7px 30px",
+
                       backgroundColor: "gray",
                       color: "white",
                       fontWeight: "bold",
@@ -833,7 +828,7 @@ export default function MemberReg1() {
                     type="button"
                     onClick={handleNextClick}
                     style={{
-                      padding: "10px 30px 10px 30px",
+                      padding: "7px 30px 7px 30px",
                       backgroundColor: "dodgerblue",
                       color: "white",
                       fontWeight: "bold",
@@ -856,7 +851,7 @@ export default function MemberReg1() {
                   <form>
                     {/* 1st Row */}
                     <div class="row py-3">
-                      <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
+                      <div class="col-lg-3 col-md-12 col-sm-12 form-fields">
                         <label for="text">Member No*</label>
                         <input
                           type="number"
@@ -871,7 +866,7 @@ export default function MemberReg1() {
                           required
                         />
                       </div>
-                      <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
+                      <div class="col-lg-3 col-md-12 col-sm-12 form-fields">
                         <label for="text">Member Name*</label>
                         <input
                           type="text"
@@ -886,7 +881,23 @@ export default function MemberReg1() {
                           required
                         />
                       </div>
-                      <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
+                          <div class="col-lg-3 col-md-12 col-sm-12 form-fields">
+                            <label for="text">Membership Fee*</label>
+                            <input
+                              type="text"
+                              name="memberShipFee"
+                              className="form-control no-outline"
+                              value={formData.memberShipFee}
+                              onChange={handleInputChange}
+                              style={{
+                                backgroundColor: "whitesmoke",
+                                borderColor: "none",
+                              }}
+                              required
+                              disabled
+                            />
+                          </div>
+                      <div class="col-lg-3 col-md-12 col-sm-12 form-fields">
                         <label for="text">IFSC Code*</label>
                         <input
                           type="text"
@@ -957,7 +968,7 @@ export default function MemberReg1() {
                     onClick={handleBackClick}
                     style={{
                       margin: "0 10px",
-                      padding: "10px 30px 10px 30px",
+                      padding: "7px 30px 7px 30px",
                       backgroundColor: "gray",
                       color: "white",
                       fontWeight: "bold",
@@ -972,7 +983,7 @@ export default function MemberReg1() {
                     type="button"
                     onClick={handleFormSubmit}
                     style={{
-                      padding: "10px 30px 10px 30px",
+                      padding: "7px 30px 7px 30px",
                       backgroundColor: "green",
                       color: "white",
                       fontWeight: "bold",

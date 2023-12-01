@@ -218,19 +218,21 @@ export default function RegisterMembers() {
   const tableCustomStyles = {
     headRow: {
       style: {
-        color: "white",
-        backgroundColor: "darkblue",
-        fontSize: "18px",
+        color: "black",
+        borderBottom:"0.5px solid black",
+        // backgroundColor: "darkblue",
+        fontSize: "16px",
         fontWeight: "400",
-        borderBottom: "1px solid #fff",
+        // borderBottom: "1px solid #fff",
         textAlign: "center",
       },
+      
     },
     rows: {
       style: {
         color: "black",
         // backgroundColor: "#2B2D3F",
-        fontSize: "14px",
+        fontSize: "13px",
         fontWeight: "normal",
         textAlign: "center",
         borderBottom: "3px solid #fff",
@@ -293,7 +295,7 @@ export default function RegisterMembers() {
                 ) : (
                   <p>Loading data...</p>
                 )}
-                <div className="col-12 ps-2 text-start">
+                {/* <div className="col-12 ps-2 text-start">
                   <Link
                     to="/Home"
                     style={{
@@ -303,7 +305,7 @@ export default function RegisterMembers() {
                   >
                     Go To Home
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

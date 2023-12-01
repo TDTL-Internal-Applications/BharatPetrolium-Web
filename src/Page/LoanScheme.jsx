@@ -1,29 +1,20 @@
 import React, { useState, useRef } from "react";
 import DataTable from "react-data-table-component";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 // import XLSX from 'xlsx';
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 import "../Style/Dashboard.css";
 import Sidebar from "./Sidebar";
-import { IoIosDownload } from "react-icons/io";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 import Header from "../components/Header";
-<<<<<<< HEAD
-import { useReactToPrint } from "react-to-print";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Input } from 'react-data-table-component';
-
-=======
-// import { useReactToPrint } from "react-to-print";
->>>>>>> 8e9156a0cb88f76e335b0130e83916e88ceac43e
+import { LuRefreshCcw } from "react-icons/lu";
 
 export default function LoanScheme() {
   // const componentPDF = useRef()
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [data, setData] = useState([
     {
@@ -74,7 +65,7 @@ export default function LoanScheme() {
       maximumAmount: 50000,
       interestRate: 5,
     },
-    // Add more sample data as needed
+
   ]);
 
   const [dataLoaded, setDataLoaded] = useState(true);
@@ -83,7 +74,7 @@ export default function LoanScheme() {
 
   const handleRowSelected = (state) => {
     setSelectedRows(state.selectedRows);
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const handleExportToExcel = () => {
@@ -110,7 +101,7 @@ export default function LoanScheme() {
       XLSX.utils.book_append_sheet(wb, ws, "sheet");
       XLSX.writeFile(wb, "LoanScheme.xlsx");
     } catch (error) {
-      console.error('Error exporting to Excel:', error);
+      console.error("Error exporting to Excel:", error);
     }
   };
 
@@ -142,14 +133,21 @@ export default function LoanScheme() {
       }
     });
   };
-
   const handleSearch = () => {
-    const searchTermLowerCase = searchTerm.toLowerCase();
-    const filtered = data.filter((row) =>
-      row.schemeName.toLowerCase().includes(searchTermLowerCase)
-    );
-    setFilteredData(filtered);
+    const searchTermLowerCase = searchTerm.toLowerCase().trim();
+
+    if (searchTermLowerCase === "") {
+      // If search term is empty, show all loan schemes
+      setFilteredData(data);
+    } else {
+      // Otherwise, filter the list based on the search term
+      const filtered = data.filter((row) =>
+        row.schemeName.toLowerCase().includes(searchTermLowerCase)
+      );
+      setFilteredData(filtered);
+    }
   };
+  
 
   const columns = [
     {
@@ -197,7 +195,7 @@ export default function LoanScheme() {
           </button>
         </div>
       ),
-      width: "250px",
+      width: "200px",
       center: true,
     },
   ];
@@ -241,7 +239,6 @@ export default function LoanScheme() {
   return (
     <>
       <Sidebar />
-      <Sidebar />
       <div className="container-fluid dashboard-area d-flex">
         <div className="row main-content p-4">
           <Header />
@@ -250,25 +247,32 @@ export default function LoanScheme() {
               Loan Scheme
             </h2>
           </div>
-          <div className="col-2 text-start px-0">
+          <div className="col-4 text-end px-0">
             <input
               type="text"
               placeholder="Search schemes"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="form-control"
+              onInput={(e) => {
+                setSearchTerm(e.target.value);
+                handleSearch();
+              }}
+              className="form-control no-outline-login"
+              style={{
+                borderRadius: "10px", // Adjust the value to your preference
+                padding: "8px", // Adjust padding as needed
+                // Add any other styles you need
+              }}
             />
           </div>
-          <div className="col-2 text-start px-0">
+
+          <div className="col-2 text-end">
             <button
               type="button"
-              className="btn btn-primary"
-              onClick={handleSearch}
+              className="btn btn-info mr-2" 
+              onClick={() => window.location.reload()} 
             >
-              Search
+              <LuRefreshCcw size={20} />
             </button>
-          </div>
-          <div className="col-2 text-end">
             <button
               type="button"
               className="btn btn-success mr-2"
@@ -287,7 +291,7 @@ export default function LoanScheme() {
 
           <div className="container-fluid">
             <div className="row">
-              <div className="col-sm-12 py-2">
+              <div className="col-sm-12 py-2 w-100">
                 {dataLoaded ? (
                   <DataTable
                     data={filteredData}
@@ -302,23 +306,10 @@ export default function LoanScheme() {
                   <p>Loading data...</p>
                 )}
               </div>
-              <div className="col-12 ps-2 text-start">
-                <Link
-                  to="/Home"
-                  style={{
-                    textDecoration: "underline 1px solid white",
-                    color: "dodgerblue",
-                  }}
-                >
-                  Go To Home
-                </Link>
-              </div>
             </div>
           </div>
         </div>
       </div>
-
     </>
-
   );
 }
