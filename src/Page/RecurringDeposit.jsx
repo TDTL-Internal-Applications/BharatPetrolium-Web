@@ -724,7 +724,7 @@ export default function RecurringDeposit() {
                       borderRadius: "10px",
                     }}
                   >
-                  <h6 className="d-flex text-start pt-2" style={{color:"var(--primary)"}}><strong>Member Account Details</strong></h6>
+                  <h6 className="d-flex text-start pt-2" style={{color:"var(--primary)"}}><strong>Member Bank Details</strong></h6>
 
                     <div className="row py-1">
                       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
@@ -849,7 +849,7 @@ export default function RecurringDeposit() {
                     }}
                   >
                     <h6 style={{ color: "red" }}>
-                      IF DEPOSIT TRANSFER FROM OTHER BRANCH
+                      USE ONLY IF DEPOSIT TRANSFER FROM OTHER BRANCH
                     </h6>
                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                       <div class="form-floating no-outline-login mb-3">
