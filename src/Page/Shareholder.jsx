@@ -196,6 +196,169 @@ export default function Shareholder() {
       }
     }
   };
+  const [transactions, setTransactions] = useState([]);
+
+  const [memberId, setMemberId] = useState("");
+  useEffect(() => {
+    // Fetch data from the API and update the state
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/shares/", {
+          member_id: formData.employeeNO,
+        });
+        console.log("API Response:", response.data);
+        setTransactions(response.data.data);
+      } catch (error) {
+        console.error("Error fetching transaction history:", error);
+      }
+    };
+
+    fetchData();
+  }, [formData.employeeNO]);
+
+  const [totalSavingBalance, setTotalSavingBalance] = useState("");
+  const response = "http://127.0.0.1:8000/saving_history/";
+
+  const fetchTotalSavingBalance = () => {
+    fetch(response, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        account_id: formData.employeeNO,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Response:", data);
+
+        const totalSavingBalance = data[1]?.total_saving_balance;
+
+        if (totalSavingBalance !== undefined) {
+          console.log("Total Saving Balance:", totalSavingBalance);
+          setTotalSavingBalance(totalSavingBalance);
+        } else {
+          console.error(
+            "total_saving_balance is undefined in the API response."
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching total saving balance:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchTotalSavingBalance();
+  }, [formData.employeeNO]);
+
+  const columns = [
+    {
+      name: "Shareholder ID",
+      selector: "ShareholderID",
+      sortable: true,
+    },
+    {
+      name: "Member ID",
+      selector: "member_id",
+      sortable: true,
+    },
+    {
+      name: "Number of Shares",
+      selector: "NumberOfShares",
+      sortable: true,
+    },
+    {
+      name: "Share Price",
+      selector: "SharePrice",
+      sortable: true,
+    },
+    {
+      name: "Purchase Date",
+      selector: "PurchaseDate",
+      sortable: true,
+    },
+  ];
+
+  const [transactionformData, setTransactionformData] = useState({
+    member_id: formData.employeeNO,
+    totalSavingBalance: "",
+    transactionType: "",
+    transactionAmount: "",
+    transactionDate: "",
+    transactionDetails: "",
+    receiptVoucherNo: "",
+    cashAmount: "",
+    bankAmount: "",
+    transferAmount: "",
+    selectedBankTransfer: "",
+    chequeNo: "",
+    micrCode: "",
+    ifscCode: "",
+    selectedBankName: "",
+    selectedBankBranch: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    try {
+      // Make the POST request
+      const response = await axios.post(
+        "http://127.0.0.1:8000/shares_purchase/",
+        {
+          ...transactionformData,
+          transactionDate: currentDate,
+          member_id: formData.employeeNO,
+          SharePrice: transactionformData.transactionAmount,
+        }
+      );
+
+      console.log("API Response:", response.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Transaction successful!',
+      });
+
+      // Clear the form data after successful submission
+      setTransactionformData((prevFormData) => ({
+        ...prevFormData,
+        totalSavingBalance: "",
+        transactionType: "",
+        transactionAmount: "",
+        transactionDate: "",
+        transactionDetails: "",
+        receiptVoucherNo: "",
+        cashAmount: "",
+        bankAmount: "",
+        transferAmount: "",
+        selectedBankTransfer: "",
+        chequeNo: "",
+        micrCode: "",
+        ifscCode: "",
+        selectedBankName: "",
+        selectedBankBranch: "",
+      }));
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handletransactionpurchase = (event) => {
+    const { name, value } = event.target;
+    setTransactionformData((prevTransactionformData) => ({
+      ...prevTransactionformData,
+      [name]: value,
+    }));
+  };
+
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   return (
     <>
@@ -565,6 +728,336 @@ export default function Shareholder() {
                         purchase: 20 shares
                       </small>
                     </div>
+                  </div> */}
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="container d-flex">
+            <div
+              className="row py-2 w-100"
+              style={{
+                backgroundColor: "",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="col-12">
+                <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
+                  Transaction History
+                </h2>
+                  <DataTable
+                    columns={columns}
+                    data={transactions}
+                    noHeader
+                    pagination={false}
+                    striped
+                    dense
+                    responsive
+                    customStyles={{
+                      rows: {
+                        style: {
+                          maxHeight: "65px", // Adjust as needed
+                        },
+                      },
+                    }}
+                  />
+              </div>
+              <div className="col-12 d-flex justify-content-start py-3">
+                <button
+                  type="button"
+                  class="btn"
+                  style={{ backgroundColor: "green", color: "white" }}
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                >
+                  Transfer
+                </button>
+
+                <div
+                  class="modal fade"
+                  id="exampleModalCenter"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header pb-0">
+                        <h6 class="modal-title" id="exampleModalCenterTitle">
+                          Transaction Details
+                        </h6>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body py-0">
+                        <div className="row w-100">
+                          <div class="modal-body text-start">
+                            <div className="row mb-1 mt-0 pt-0">
+                              <label
+                                for="inputCash3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Balance in A/c
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputBalance3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputCash3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Transaction Type
+                              </label>
+                              <div class="col-sm-8">
+                                <select
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputEmail3"
+                                >
+                                  <option>Select Type</option>
+
+                                  <option>Credit</option>
+                                  <option>Cheque</option>
+                                  <option>Bank Transfer</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputEmail3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Transaction Amount
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputBank3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Transaction Date
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="date"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Transaction Details
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Reciept/Voucher No.
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <hr className="pt-1 pb-1 m-0" />
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Cash Amount
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Bank Amount
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Transfer Amount
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label text-start"
+                              >
+                                Select Bank Transfer
+                              </label>
+                              <div class="col-sm-8">
+                                <select
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                >
+                                  <option>Select Bank A/C</option>
+                                  <option>SBI Current A/C 2352665</option>
+                                  <option>SBI Saving A/C 2352665</option>
+                                  <option>Axis Current A/C 2352665</option>
+                                  <option>Transfer</option>
+                                  <option>Transfer to/from Saving</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="row pb-1 mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                Cheque No.
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <hr className="m-0 pt-2"/>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                MICR Code
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label"
+                              >
+                                IFSC Code
+                              </label>
+                              <div class="col-sm-8">
+                                <input
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label text-start"
+                              >
+                                Select Bank Name
+                              </label>
+                              <div class="col-sm-8">
+                                <select
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                >
+                                  <option>Select Bank A/C</option>
+                                  <option>SBI Current A/C 2352665</option>
+                                  <option>SBI Saving A/C 2352665</option>
+                                  <option>Axis Current A/C 2352665</option>
+                                  <option>Transfer</option>
+                                  <option>Transfer to/from Saving</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="row mb-1">
+                              <label
+                                for="inputTransfer3"
+                                class="col-sm-4 col-form-label text-start"
+                              >
+                                Select Bank Branch
+                              </label>
+                              <div class="col-sm-8">
+                                <select
+                                  type="text"
+                                  class="form-control no-outline-login"
+                                  id="inputTransfer3"
+                                >
+                                  <option>Select Bank A/C</option>
+                                  <option>SBI Current A/C 2352665</option>
+                                  <option>SBI Saving A/C 2352665</option>
+                                  <option>Axis Current A/C 2352665</option>
+                                  <option>Transfer</option>
+                                  <option>Transfer to/from Saving</option>
+                                </select>
+                              </div>
+                            </div>
                   </div>
                 </form>
               </div>

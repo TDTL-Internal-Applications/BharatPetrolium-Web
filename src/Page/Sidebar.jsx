@@ -20,6 +20,65 @@ const Sidebar = () => {
   const [showMemberSubmenus, setShowMemberSubmenus] = useState(false);
   const [showLoanSubmenus, setShowLoanSubmenus] = useState(false);
   const [showDepositmenus, setShowDepositmenus] = useState(false);
+  const [showTermDepositmenus, setShowTermDepositmenus] = useState(false);
+  const [showLakshaDepositmenus, setShowLakshaDepositmenus] = useState(false);
+  const [showDamDepositmenus, setShowDamDepositmenus] = useState(false);
+  const [showLakhpatiDepositmenus, setShowLakhpatiDepositmenus] = useState(false);
+
+
+
+  const toggleLakhpatiDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
+    setShowTermDepositmenus(false); 
+    setShowRecurringDepositMenus(false);
+    setShowDamDepositmenus(false)
+    setShowLakhpatiDepositmenus(!setShowLakhpatiDepositmenus)
+    setIsOpen(true);
+    toggleRecurringDepositMenus(false);
+  };
+
+  const toggleDamDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
+    setShowTermDepositmenus(false); 
+    setShowRecurringDepositMenus(false);
+    setShowDamDepositmenus(!setShowDamDepositmenus)
+    setIsOpen(true);
+    toggleRecurringDepositMenus(false);
+  };
+
+  const toggleRecurringDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowRecurringDepositMenus(!showRecurringDepositMenus);
+    setIsOpen(true);
+  };
+  const toggleTermDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
+    setShowTermDepositmenus(!showTermDepositmenus); // Corrected state variable name
+    setShowRecurringDepositMenus(false);
+    setIsOpen(true);
+    toggleRecurringDepositMenus(false);
+  };
+  const toggleLakshaDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
+    setShowTermDepositmenus(false); 
+    setShowLakshaDepositmenus(!showLakshaDepositmenus)
+    setShowRecurringDepositMenus(false);
+    setIsOpen(true);
+    toggleRecurringDepositMenus(false);
+  };
+
+  
+  
 
   const toggleMemberSubmenus = () => {
     setShowMemberSubmenus(!showMemberSubmenus);
@@ -196,6 +255,32 @@ const Sidebar = () => {
                     <div className="ps-2">Cash Certificate</div>
                   </Link>
                 </li>
+                <li onClick={stopPropagationRecurringDeposit}>
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleRecurringDepositMenus}
+                  >
+                    <div className="">Recurring Deposit</div>
+                    <i
+                      className={`dropdown-icon ${
+                        showRecurringDepositMenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
+                  </Link>
+
+                  {showRecurringDepositMenus && (
+                    <ul>
+                      <li>
+                        <Link
+                          to="/recurring-deposit/new"
+                          className="submenu link"
+                        >
+                          <div className="ps-3">New RD</div>
+                        </Link>
+                      </li>
                 <li>
                   <Link to="/recurring-deposit" className="submenu link">
                     <div className="ps-2">Recurring Deposit</div>

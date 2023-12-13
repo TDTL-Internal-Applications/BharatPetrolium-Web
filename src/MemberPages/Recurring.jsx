@@ -10,7 +10,7 @@ export default function Recurring() {
   useEffect(() => {
     const memberId = localStorage.getItem("member_id");
     axios
-      .post("http://127.0.0.1:8000/rd_history/", {
+      .post("http://bpcl.kolhapurdakshin.com:8000/rd_history/", {
         member_id: memberId,
       })
       .then((response) => {
