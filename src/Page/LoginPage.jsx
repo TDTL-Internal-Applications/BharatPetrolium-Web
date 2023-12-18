@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import loginImg from "../Images/Login-Side.png";
+import loginImg from "../Images/Login-Side.jpg";
 import "../Style/LoginPage.css";
 
 export default function LoginPage() {
@@ -41,7 +41,7 @@ export default function LoginPage() {
       });      return;
     }
     try {
-      const response = await axios.post("http://127.0.0.1:8000/member_login/", {
+      const response = await axios.post("http://bpcl.kolhapurdakshin.com:8000/member_login/", {
         email: email,
         password: password,
       });
@@ -113,7 +113,7 @@ export default function LoginPage() {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row p-5">
+        <div className="row p-4">
           <div
             className="Client-name fs-1"
             style={{

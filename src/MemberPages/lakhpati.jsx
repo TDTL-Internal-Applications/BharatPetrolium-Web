@@ -16,7 +16,7 @@ export default function Recurring() {
     axios
       .post("http://bpcl.kolhapurdakshin.com:8000/rd_history/", {
         member_id: memberId,
-        Account_type: "Recurring Deposit",
+        Account_type: "Lakhpati",
       })
       .then((response) => {
         const data = response.data.Output;
@@ -30,6 +30,7 @@ export default function Recurring() {
       })
       .catch((error) => {
         console.error("Error fetching recurring deposits:", error);
+        toast.error("No Transactions Available!");
       });
   }, []);
 
@@ -95,7 +96,7 @@ export default function Recurring() {
     const data = {
       member_id,
       RDID,
-      Account_type: "Recurring Deposit",
+      Account_type: "Lakhpati",
     };
     localStorage.setItem("member_id", member_id);
     console.log("Data before API call:", data);
@@ -109,7 +110,6 @@ export default function Recurring() {
       })
       .catch((error) => {
         console.error("Error fetching RD closure transactions:", error);
-        toast.error("No Transactions Available!");
       });
   };
 
@@ -177,7 +177,7 @@ export default function Recurring() {
             <div className="row w-100 align-items-center">
               <div className="col-6 text-start">
                 <h3 style={{ fontWeight: "bold", color: "dodgerblue" }}>
-                  Recurring Deposits Transaction
+                  Lakhpati Yojana Transaction
                 </h3>
               </div>
             </div>

@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
+
 export default function Recurring() {
   const [recurringDeposits, setRecurringDeposits] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -16,7 +17,7 @@ export default function Recurring() {
     axios
       .post("http://bpcl.kolhapurdakshin.com:8000/rd_history/", {
         member_id: memberId,
-        Account_type: "Recurring Deposit",
+        Account_type: "Ek Laksha",
       })
       .then((response) => {
         const data = response.data.Output;
@@ -95,21 +96,22 @@ export default function Recurring() {
     const data = {
       member_id,
       RDID,
-      Account_type: "Recurring Deposit",
+      Account_type: "Ek Laksha",
     };
     localStorage.setItem("member_id", member_id);
     console.log("Data before API call:", data);
     axios
       .post(`http://bpcl.kolhapurdakshin.com:8000/rd_history_closure/`, data)
       .then((response) => {
-        const responseData = response.data["result"];
-        console.log(responseData[0]);
+        const responseData = response.data['result'];
+        console.log(responseData[0]); 
         setTransactions(responseData);
-        setShowTransactionsTable(true);
+        setShowTransactionsTable(true); 
       })
       .catch((error) => {
         console.error("Error fetching RD closure transactions:", error);
         toast.error("No Transactions Available!");
+
       });
   };
 
@@ -161,9 +163,9 @@ export default function Recurring() {
   const customStyles = {
     headRow: {
       style: {
-        backgroundColor: "skyblue",
-        color: "white",
-        fontSize: "13px",
+        backgroundColor: "skyblue", 
+        color: "white", 
+        fontSize:"13px"
       },
     },
   };
@@ -177,45 +179,47 @@ export default function Recurring() {
             <div className="row w-100 align-items-center">
               <div className="col-6 text-start">
                 <h3 style={{ fontWeight: "bold", color: "dodgerblue" }}>
-                  Recurring Deposits Transaction
+                 Ek Laksha Yojana Transaction
                 </h3>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-12">
-              {showTransactionsTable && (
-                <div>
-                  <DataTable
-                    title="Transaction Details"
-                    columns={transactionColumns}
-                    data={transactions}
-                    customStyles={customStyles}
-                    pagination
-                    responsive
-                  />
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setShowTransactionsTable(false)}
-                  >
-                    Back
-                  </button>
-                </div>
-              )}
+            {showTransactionsTable && (
+            <div>
+              
+              <DataTable
+                title="Transaction Details"
+                columns={transactionColumns}
+                data={transactions}
+                customStyles={customStyles}
+                pagination
+                responsive
+              />
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowTransactionsTable(false)}
+              >
+                Back
+              </button>
+            </div>
+          )}
 
-              {!showTransactionsTable && recurringDeposits && (
-                <DataTable
-                  columns={columns}
-                  data={recurringDeposits}
-                  customStyles={customStyles}
-                  // pagination
-                  fixedHeader
-                  fixedHeaderScrollHeight="400px"
-                  responsive
-                />
-              )}
+          {!showTransactionsTable && recurringDeposits && (
+            <DataTable
+              columns={columns}
+              data={recurringDeposits}
+              customStyles={customStyles}
+              // pagination
+              fixedHeader
+              fixedHeaderScrollHeight="400px"
+              responsive
+            />
+          )}
             </div>
           </div>
+         
         </div>
       </div>
       <ToastContainer

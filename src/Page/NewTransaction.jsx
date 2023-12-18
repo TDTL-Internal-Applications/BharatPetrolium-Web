@@ -4,8 +4,6 @@ import Header from "../components/Header";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-
-
 export default function NewTransaction() {
   const [transaction_date, setDate] = useState("");
   const [selectedMember, setSelectedMember] = useState("");
@@ -16,7 +14,6 @@ export default function NewTransaction() {
   const [Status, setStatus] = useState("In Progress");
   const [description, setDescription] = useState("");
   const [members, setMembers] = useState([]);
-  
 
   const handleAmountChange = (e) => {
     const amount = parseFloat(e.target.value);
@@ -38,7 +35,7 @@ export default function NewTransaction() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/new_transaction/",
+        "http://bpcl.kolhapurdakshin.com:8000/new_transaction/",
         {
           transaction_date,
           member: selectedMember,
@@ -56,7 +53,6 @@ export default function NewTransaction() {
       } else {
         console.error("Transaction failed with status code:", response.Status);
         toast.error("Transaction Successfull");
-
       }
     } catch (error) {
       if (error.response) {
@@ -83,7 +79,7 @@ export default function NewTransaction() {
 
   useEffect(() => {
     axios
-      .post("http://127.0.0.1:8000/member_names/")
+      .post("http://bpcl.kolhapurdakshin.com:8000/member_names/")
       .then((response) => {
         // Assuming the member names are in response.data.members
         const memberNamesArray = response.data.members || [];
@@ -98,7 +94,7 @@ export default function NewTransaction() {
   useEffect(() => {
     if (selectedMember) {
       axios
-        .post(`http://127.0.0.1:8000/fetch_member/`, {
+        .post(`http://bpcl.kolhapurdakshin.com:8000/fetch_member/`, {
           member_name: selectedMember,
         })
         .then((response) => {
@@ -125,100 +121,114 @@ export default function NewTransaction() {
           <Header />
           {/* Heading */}
           <div className="container d-flex text-start w-100 pb-1">
-            <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
-              New Transaction
-            </h2>
+            <h3 style={{ fontWeight: "bold", color: "dodgerblue" }}>
+              Receipt & Payment Entries
+            </h3>
           </div>
           <div
             className="container py-3 d-flex justify-content-center align-items-center"
             style={{ backgroundColor: "whitesmoke", borderRadius: "20px" }}
           >
-            <div className="row w-75">
+            <div className="row w-100">
               <form>
-                <div className="row mb-3 text-start">
-                  <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Date*
+                <div className="row mb-2 text-start d-flex align-items-center">
+                  <div className="col-lg-6 col-md-12 col-sm-12 py-1 d-flex">
+                    <div class="row mb-1">
+                      <label
+                        for="date"
+                        class="col-lg-2 col-md-12 col-sm-12 col-form-label"
+                      >
+                        Date
+                      </label>
+                      <div class="col-lg-3 col-md-12 col-sm-12 col-sm-4">
+                        <input
+                          type="date"
+                          class="form-control no-outline"
+                          style={{ background: "white" }}
+                          readOnly
+                          value={transaction_date}
+                          onChange={(e) => setDate(e.target.value)}
+                        />
+                      </div>
+                      <label
+                        for="vocher"
+                        class="col-lg-5 col-md-12 col-sm-12 col-form-label"
+                      >
+                        Receipt/Voucher No*
+                      </label>
+                      <div class="col-lg-2 col-md-12 col-sm-12">
+                        <input type="text" class="form-control no-outline" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mb-2 text-start">
+                  <label className="col-sm-12 col-md-12 col-lg-1 col-form-label">
+                    Member*
                   </label>
-                  <div className="col-sm-12 col-md-12 col-lg-10">
+                  <div className="col-sm-12 col-md-12 col-lg-1 py-1">
+                    <input type="text" className="form-control no-outline" />
+                  </div>
+                  <div className="col-sm-12 col-md-12 col-lg-2 py-1">
+                    <input type="text" className="form-control no-outline" />
+                  </div>
+                  <label className="col-sm-12 col-md-12 col-lg-1 col-form-label">
+                    Name*
+                  </label>
+                  <div className="col-sm-12 col-md-12 col-lg-7">
                     <input
+                      type="text"
                       required
-                      disabled
-                      type="date"
                       className="form-control no-outline"
-                      value={transaction_date}
-                      onChange={(e) => setDate(e.target.value)}
-                      style={{ background: "white" }}
                     />
                   </div>
                 </div>
-                <div className="row mb-3 text-start">
+
+                <div className="row mb-2 text-start">
                   <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Member*
+                    Select Account Head*
                   </label>
                   <div className="col-sm-12 col-md-12 col-lg-10">
                     <select
-                      required
-                      className="form-select no-outline"
-                      value={selectedMember}
-                      onChange={(e) => setSelectedMember(e.target.value)}
-                    >
-                      <option value="" disabled>
-                        Select Member
-                      </option>
-                      {members.map((member, index) => (
-                        <option key={index} value={member.full_name}>
-                          {member.full_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="row mb-3 text-start">
-                  <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Account ID*
-                  </label>
-                  <div className="col-sm-12 col-md-12 col-lg-10">
-                    <input
-                      required
-                      disabled
-                      type="number"
-                      className="form-control no-outline"
-                      value={account_id}
-                      onChange={(e) => setAccountId(e.target.value)}
-                      style={{ background: "white" }}
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3 text-start">
-                  <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Amount*
-                  </label>
-                  <div className="col-sm-12 col-md-12 col-lg-10">
-                    <input
                       required
                       type="number"
                       className="form-control no-outline"
                       value={amount}
                       onChange={handleAmountChange}
-                    />
-                  </div>
-                </div>
-                {/* <div className="row mb-3 text-start">
-                  <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Debit/Credit*
-                  </label>
-                  <div className="col-sm-12 col-md-12 col-lg-10">
-                    <select
-                      className="form-control no-outline"
-                      value={debitCredit}
-                      onChange={(e) => setDebitCredit(e.target.value)}
                     >
-                      <option>Select One</option>
-                      <option>Credit</option>
-                      <option>Debit</option>
+                      <option>Select</option>
+
+                      <option>Admin</option>
+                      <option>Operator</option>
                     </select>
                   </div>
-                </div> */}
+                </div>
+                <div className="row mb-2 text-start">
+                  <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="inputEmail4" class="form-label">
+                      Transaction Amt.
+                    </label>
+                    <input type="text" class="form-control no-outline" />
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="inputEmail4" class="form-label">
+                      Cash Amt.
+                    </label>
+                    <input type="text" class="form-control no-outline" />
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="inputEmail4" class="form-label">
+                      Bank Amt.
+                    </label>
+                    <input type="text" class="form-control no-outline" />
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="inputEmail4" class="form-label">
+                      Transfer Amt.
+                    </label>
+                    <input type="text" class="form-control no-outline" />
+                  </div>
+                </div>
                 <div className="row mb-3 text-start">
                   <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
                     Transaction Type*
@@ -256,9 +266,9 @@ export default function NewTransaction() {
                   </div>
                 </div> */}
 
-                <div className="row mb-3 text-start">
+                <div className="row mb-2 text-start">
                   <label className="col-sm-12 col-md-12 col-lg-2 col-form-label">
-                    Description*
+                    Naration*
                   </label>
                   <div className="col-sm-12 col-md-12 col-lg-10">
                     <textarea
@@ -269,23 +279,59 @@ export default function NewTransaction() {
                     />
                   </div>
                 </div>
-                <div className="row mb-3 text-center">
-                  <div className="col-sm-12 col-md-12 col-lg-12">
+                <div className="row mb-2 text-center">
+                  <div className="col-sm-12 col-md-12 col-lg-4 py-1">
                     <button
                       type="submit"
                       onClick={handleSubmit}
                       className="btn"
                       style={{
-                        padding: "10px 30px 10px 30px",
-                        backgroundColor: "dodgerblue",
+                        padding: "7px 25px 7px 25px",
+                        backgroundColor: "green",
                         color: "white",
                         fontWeight: "bold",
                         border: "none",
                         borderRadius: "7px",
-                        fontSize: "20px",
+                        fontSize: "17px",
                       }}
                     >
-                      Complete Transaction
+                      Receipt Entry
+                    </button>
+                  </div>
+                  <div className="col-sm-12 col-md-12 col-lg-4 py-1">
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="btn"
+                      style={{
+                        padding: "7px 19px 7px 19px",
+                        backgroundColor: "green",
+                        color: "white",
+                        fontWeight: "bold",
+                        border: "none",
+                        borderRadius: "7px",
+                        fontSize: "17px",
+                      }}
+                    >
+                      Payment Entry
+                    </button>
+                  </div>
+                  <div className="col-sm-12 col-md-12 col-lg-4 py-1">
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="btn"
+                      style={{
+                        padding: "7px 57px 7px 57px",
+                        backgroundColor: "grey",
+                        color: "white",
+                        fontWeight: "bold",
+                        border: "none",
+                        borderRadius: "7px",
+                        fontSize: "17px",
+                      }}
+                    >
+                      Clear
                     </button>
                   </div>
                 </div>

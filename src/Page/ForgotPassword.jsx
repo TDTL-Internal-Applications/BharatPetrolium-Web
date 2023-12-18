@@ -18,7 +18,7 @@ export default function ForgotPassword() {
       return;
     }
     try {
-      await axios.post("http://127.0.0.1:8000/mail_verification/", { email });
+      await axios.post("http://bpcl.kolhapurdakshin.com:8000/mail_verification/", { email });
 
       // email sent successfully
       toast.success("Password reset link sent successfully to your email!");

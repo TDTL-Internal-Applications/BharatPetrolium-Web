@@ -6,6 +6,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import DataTable from "react-data-table-component";
 
 export default function Shareholder() {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ export default function Shareholder() {
       }
 
       const response = await axios.get(
-        `http://127.0.0.1:8000/all_memberdata/${memberId}/`
+        `http://bpcl.kolhapurdakshin.com:8000/all_memberdata/${memberId}/`
       );
 
       const jsondata = response.data;
@@ -139,7 +140,7 @@ export default function Shareholder() {
     if (confirmPurchase) {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/shares_reg/${formData.employeeNO}/`,
+          `http://bpcl.kolhapurdakshin.com:8000/shares_reg/${formData.employeeNO}/`,
 
           {
             memberData: formData,
@@ -203,9 +204,12 @@ export default function Shareholder() {
     // Fetch data from the API and update the state
     const fetchData = async () => {
       try {
-        const response = await axios.post("http://127.0.0.1:8000/shares/", {
-          member_id: formData.employeeNO,
-        });
+        const response = await axios.post(
+          "http://bpcl.kolhapurdakshin.com:8000/shares/",
+          {
+            member_id: formData.employeeNO,
+          }
+        );
         console.log("API Response:", response.data);
         setTransactions(response.data.data);
       } catch (error) {
@@ -217,30 +221,30 @@ export default function Shareholder() {
   }, [formData.employeeNO]);
 
   const [totalSavingBalance, setTotalSavingBalance] = useState("");
-  const response = "http://127.0.0.1:8000/saving_history/";
+
+  const apiUrl = "http://bpcl.kolhapurdakshin.com:8000/saving_history/";
 
   const fetchTotalSavingBalance = () => {
-    fetch(response, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    axios
+      .post(apiUrl, {
         account_id: formData.employeeNO,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+      })
+      .then((response) => {
+        const data = response.data;
         console.log("API Response:", data);
 
-        const totalSavingBalance = data[1]?.total_saving_balance;
+        const totalSavingBalanceObject = data.find(
+          (item) => item.total_saving_balance !== undefined
+        );
 
-        if (totalSavingBalance !== undefined) {
+        if (totalSavingBalanceObject) {
+          const totalSavingBalance =
+            totalSavingBalanceObject.total_saving_balance;
           console.log("Total Saving Balance:", totalSavingBalance);
           setTotalSavingBalance(totalSavingBalance);
         } else {
           console.error(
-            "total_saving_balance is undefined in the API response."
+            "total_saving_balance is not present in the API response."
           );
         }
       })
@@ -302,51 +306,98 @@ export default function Shareholder() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    const requiredFields = [
+      "transactionType",
+      "transactionAmount",
+      "transactionDetails",
+      "receiptVoucherNo",
+      "selectedBankTransfer",
+      "chequeNo",
+      "micrCode",
+      "ifscCode",
+      "selectedBankName",
+      "selectedBankBranch"
+    ];
+  
+    const isAnyFieldEmpty = requiredFields.some(
+      (field) => !transactionformData[field]
+    );
 
+    console.log("Field Values:", requiredFields.map(field => transactionformData[field]));
+
+  
+    if (isAnyFieldEmpty) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please fill in all required fields.",
+        didOpen: () => {
+          Swal.getPopup().style.borderRadius = "25px";
+          const confirmButton = Swal.getConfirmButton();
+          confirmButton.classList.add("custom-swal-button-share");
+        },
+      });
+      return;
+    }
+  
     const currentDate = new Date().toISOString().split("T")[0];
-
+  
+    const data={
+      transactionDate: currentDate,
+      member_id: formData.employeeNO,
+      SharePrice: transactionformData.transactionAmount,
+    }
     try {
-      // Make the POST request
       const response = await axios.post(
-        "http://127.0.0.1:8000/shares_purchase/",
-        {
-          ...transactionformData,
-          transactionDate: currentDate,
-          member_id: formData.employeeNO,
-          SharePrice: transactionformData.transactionAmount,
-        }
-      );
-
+        "http://bpcl.kolhapurdakshin.com:8000/shares_purchase/",data );
+  
       console.log("API Response:", response.data);
       Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Transaction successful!',
+        icon: "success",
+        title: "Success",
+        text: "Transaction successful!",
+        didOpen: () => {
+          Swal.getPopup().style.borderRadius = "25px";
+          const confirmButton = Swal.getConfirmButton();
+          confirmButton.classList.add("custom-swal-button-share");
+        },
       });
-
-      // Clear the form data after successful submission
+  
       setTransactionformData((prevFormData) => ({
         ...prevFormData,
-        totalSavingBalance: "",
-        transactionType: "",
-        transactionAmount: "",
-        transactionDate: "",
-        transactionDetails: "",
-        receiptVoucherNo: "",
-        cashAmount: "",
-        bankAmount: "",
-        transferAmount: "",
-        selectedBankTransfer: "",
-        chequeNo: "",
-        micrCode: "",
-        ifscCode: "",
-        selectedBankName: "",
-        selectedBankBranch: "",
+        totalSavingBalance: '',
+        transactionType: '',
+        transactionAmount: '',
+        transactionDate: '',
+        transactionDetails: '',
+        receiptVoucherNo: '',
+        cashAmount: '',
+        bankAmount: '',
+        transferAmount: '',
+        selectedBankTransfer: '',
+        chequeNo: '',
+        micrCode: '',
+        ifscCode: '',
+        selectedBankName: '',
+        selectedBankBranch: '',
       }));
     } catch (error) {
       console.error("Error submitting form:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text:
+          "You have already taken 20 shares. To further increase your shareholding, consider exploring cumulative deposits!",
+        didOpen: () => {
+          Swal.getPopup().style.borderRadius = "25px";
+          const confirmButton = Swal.getConfirmButton();
+          confirmButton.classList.add("custom-swal-button-share");
+        },
+      });
     }
   };
+  
 
   const handletransactionpurchase = (event) => {
     const { name, value } = event.target;
@@ -356,9 +407,68 @@ export default function Shareholder() {
     }));
   };
 
+  const [disablecash, setdisablecash] = useState(false);
+  const [disablebank, setdisablebank] = useState(false);
+  const [disabletransfer, setdisabletransfer] = useState(false);
+
+  const handleAmount = (event) => {
+    const { name, value } = event.target;
+    setTransactionformData((prevTransactionformData) => ({
+      ...prevTransactionformData,
+      [name]: value,
+    }));
+
+    if(name==="cashAmount"){
+      // setdisablecash(true);
+      setdisablebank(true);
+      setdisabletransfer(true);
+    }
+    if(name==="bankAmount"){
+      // setdisablebank(true);
+      setdisablecash(true);
+      setdisabletransfer(true);
+    }
+    if(name==="transferAmount"){
+      setdisablebank(true);
+      setdisablecash(true);
+      // setdisabletransfer(true);
+    }
+    if(value === ""){
+      setdisablebank(false);
+      setdisablecash(false);
+      setdisabletransfer(false);
+    }
+  }
+
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+
+  useEffect(() => {
+    // Disable other fields based on the updated state
+    if (formData.cashAmount !== '') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        bankAmount: '',
+        transferAmount: '',
+      }));
+    } else if (formData.bankAmount !== '') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        cashAmount: '',
+        transferAmount: '',
+      }));
+    } else if (formData.transferAmount !== '') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        cashAmount: '',
+        bankAmount: '',
+      }));
+    }
+  }, [formData]);
+
+
+
 
   return (
     <>
@@ -374,12 +484,15 @@ export default function Shareholder() {
             </h2>
           </div>
           <div className="container d-flex justify-content-center">
-            <div className="row w-100">
+            <div
+              className="row py-2 w-100"
+              style={{ backgroundColor: "whitesmoke", borderRadius: "10px" }}
+            >
               <div className="col-12">
                 <form>
                   {/* 1st Row */}
-                  <div className="row pb-2">
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                  <div className="row pb-1">
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
                       <label htmlFor="text">Member ID*</label>
                       <input
                         type="number"
@@ -388,14 +501,15 @@ export default function Shareholder() {
                         value={formData.memberId}
                         onChange={handleMemberIdChange}
                         style={{
-                          backgroundColor: "whitesmoke",
+                          backgroundColor: "white",
                           borderColor: "none",
                         }}
                         min={0}
                         required
+                        
                       />
                     </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
                       <label htmlFor="text">First Name*</label>
                       <input
                         type="text"
@@ -404,13 +518,14 @@ export default function Shareholder() {
                         value={formData.firstName}
                         onChange={handleInputChange}
                         style={{
-                          backgroundColor: "whitesmoke",
+                          backgroundColor: "white",
                           borderColor: "none",
                         }}
                         required
+                        disabled
                       />
                     </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
                       <label htmlFor="text">Last Name*</label>
                       <input
                         type="text"
@@ -419,99 +534,34 @@ export default function Shareholder() {
                         value={formData.lastName}
                         onChange={handleInputChange}
                         style={{
-                          backgroundColor: "whitesmoke",
+                          backgroundColor: "white",
                           borderColor: "none",
                         }}
                         required
+                        disabled
                       />
                     </div>
-                  </div>
-                  {/* 2nd Row */}
-                  <div className="row py-3">
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
                       <label htmlFor="text">Gender*</label>
                       <select
                         name="gender"
-                        className="form-control no-outline"
+                        className="form-select no-outline"
                         value={formData.gender}
                         onChange={handleInputChange}
                         style={{
-                          backgroundColor: "whitesmoke",
+                          backgroundColor: "white",
                           borderColor: "none",
+                          fontSize: "12px",
                         }}
                         required
+                        disabled
                       >
                         <option></option>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
                       </select>
                     </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Birth Date*</label>
-                      <input
-                        type="date"
-                        name="birthDate"
-                        className="form-control no-outline"
-                        value={formData.birthDate}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                          cursor: "pointer",
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Age</label>
-                      <input
-                        type="number"
-                        name="age"
-                        className="form-control no-outline"
-                        value={formData.age}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {/* 3rd Row */}
-                  <div className="row py-3">
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Join Date*</label>
-                      <input
-                        type="date"
-                        name="joinDate"
-                        className="form-control no-outline"
-                        value={formData.joinDate}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                          cursor: "pointer",
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Confirm Date*</label>
-                      <input
-                        type="date"
-                        name="confirmDate"
-                        className="form-control no-outline"
-                        value={formData.confirmDate}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                          cursor: "pointer",
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
                       <label htmlFor="text">Email*</label>
                       <input
                         type="email"
@@ -520,215 +570,88 @@ export default function Shareholder() {
                         value={formData.email}
                         onChange={handleInputChange}
                         style={{
-                          backgroundColor: "whitesmoke",
+                          backgroundColor: "white",
                           borderColor: "none",
                         }}
                         required
+                        disabled
                       />
                     </div>
-                  </div>
-                  {/* 5th Row */}
-                  <div className="row py-3">
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">PAN No.*</label>
-                      <input
-                        type="text"
-                        name="panNo"
-                        className="form-control no-outline"
-                        value={formData.panNo}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Mobile Number*</label>
-                      <input
-                        type="tel"
-                        name="mobileNumber"
-                        className="form-control no-outline"
-                        value={formData.mobileNumber}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-                    {/* <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Marital Status</label>
-                      <select
-                        name="maritalStatus"
-                        className="form-control no-outline"
-                        value={formData.maritalStatus}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                      >
-                        <option></option>
-                        <option>Single</option>
-                        <option>Married</option>
-                      </select>
-                    </div> */}
-                    <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label for="text">Bank Saving A/c No.*</label>
-                      <input
-                        type="number"
-                        name="bankSavingAcNo"
-                        className="form-control no-outline"
-                        value={formData.bankSavingAcNo}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="row py-3 ">
-                    <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label for="text">IFSC Code*</label>
-                      <input
-                        type="text"
-                        name="ifscCode"
-                        className="form-control no-outline"
-                        value={formData.ifscCode}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-
-                    <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label for="text">Bank Name*</label>
-                      <input
-                        type="text"
-                        name="bankName"
-                        class="form-control no-outline"
-                        value={formData.bankName}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 form-fields">
-                      <label for="text">Branch Name*</label>
-                      <input
-                        type="text"
-                        name="branchName"
-                        class="form-control no-outline"
-                        value={formData.branchName}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="row pt-3 pb-4 d-flex justify-content-center align-items-center"
-                    style={{
-                      backgroundColor: "#17a2b8",
-                      color: "white",
-                      borderRadius: "7px",
-                    }}
-                  >
-                    <div className="col-lg-3 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Number of Shares*</label>
-                      <input
-                        type="number"
-                        name="NumberOfShares"
-                        className="form-control no-outline"
-                        value={Math.max(
-                          0,
-                          Math.min(20, formData.NumberOfShares)
-                        )}
-                        onChange={handleInputChange}
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                        max={20}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-3 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Total Amount (Rs)</label>
-                      <input
-                        type="number"
-                        name="SharePrice"
-                        className="form-control no-outline"
-                        value={Math.max(0, formData.NumberOfShares) * 500}
-                        readOnly
-                        style={{
-                          backgroundColor: "whitesmoke",
-                          borderColor: "none",
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-3 col-md-12 col-sm-12 form-fields">
-                      <label htmlFor="text">Purchase Date</label>
+                    <div className="col-lg-2 col-md-12 col-sm-12 form-fields">
+                      <label htmlFor="text">Opening Date*</label>
                       <input
                         type="date"
-                        name="PurchaseDate"
+                        name="date"
                         className="form-control no-outline"
-                        value={formData.PurchaseDate}
-                        style={{ backgroundColor: "white" }}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            PurchaseDate: new Date(
-                              e.target.value
-                            ).toLocaleDateString(),
-                          })
-                        }
-                        readOnly
+                        value={currentDate}
+                        onChange={handleInputChange}
+                        style={{
+                          backgroundColor: "white",
+                          borderColor: "none",
+                        }}
+                        required
+                        disabled
                       />
                     </div>
+                  </div>
 
-                    <div
-                      className="col-lg-3 col-md-12 col-sm-12 form-fields d-flex justify-content-center"
-                      style={{ paddingTop: "30px" }}
-                    >
-                      <button
-                        type="button"
-                        className="btn"
-                        onClick={handleTransaction}
+                  {/* 3rd Row */}
+                  <div className="row pb-1">
+                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                      <label htmlFor="text">Posting*</label>
+                      <select
+                        type="text"
+                        name="posting"
+                        className="form-select no-outline"
                         style={{
-                          backgroundColor: "green",
-                          color: "white",
-                          padding: "8px 20px",
-                          borderRadius: "7px",
-                          boxShadow:
-                            "1px solid white, 5px 1px 5px 0px var(--bs-gray-600)",
+                          backgroundColor: "white",
+                          borderColor: "none",
+                          cursor: "pointer",
                         }}
+                        required
+                        disabled
                       >
-                        <FaShoppingCart style={{ marginRight: "8px" }} />
-                        Purchase Shares
-                      </button>
+                        <option value="">Select an Option</option>
+                        <option value="Account">Account</option>
+                        <option value="Society">Society</option>
+                      </select>
                     </div>
-                    <div className="text-start pt-2">
-                      <small className="text-white">
-                        1 share = 500 Rs, Minimum purchase: 1 share & Maximum
-                        purchase: 20 shares
-                      </small>
+                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                      <label htmlFor="text">Division*</label>
+                      <select
+                        type="text"
+                        name="posting"
+                        className="form-select no-outline"
+                        style={{
+                          backgroundColor: "white",
+                          borderColor: "none",
+                          cursor: "pointer",
+                        }}
+                        required
+                        disabled
+                      >
+                        <option value="BPCL">BPCL</option>
+                        <option value="Other">Other</option>
+                      </select>
                     </div>
-                  </div> */}
+                    <div className="col-lg-4 col-md-12 col-sm-12 form-fields">
+                      <label htmlFor="text">Post*</label>
+                      <select
+                        type="text"
+                        name="posting"
+                        className="form-select no-outline"
+                        style={{
+                          backgroundColor: "white",
+                          borderColor: "none",
+                          cursor: "pointer",
+                        }}
+                        required
+                        disabled
+                      >
+                        <option value=""></option>
+                      </select>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -742,9 +665,10 @@ export default function Shareholder() {
               }}
             >
               <div className="col-12">
-                <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
+                <h3 style={{ fontWeight: "bold", color: "dodgerblue" }}>
                   Transaction History
-                </h2>
+                </h3>
+                {formData.employeeNO !== "" ? (
                   <DataTable
                     columns={columns}
                     data={transactions}
@@ -756,22 +680,32 @@ export default function Shareholder() {
                     customStyles={{
                       rows: {
                         style: {
-                          maxHeight: "65px", // Adjust as needed
+                          maxHeight: "65px",
                         },
                       },
                     }}
                   />
+                ) : (
+                  <p style={{ textAlign: "center" }}>
+                    No data available, Please Insert The Member ID!
+                  </p>
+                )}
               </div>
               <div className="col-12 d-flex justify-content-start py-3">
-                <button
-                  type="button"
-                  class="btn"
-                  style={{ backgroundColor: "green", color: "white" }}
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                >
-                  Transfer
-                </button>
+                {formData.employeeNO !== "" ? (
+                  <button
+                    type="button"
+                    class="btn"
+                    style={{ backgroundColor: "green", color: "white" }}
+                    data-toggle="modal"
+                    data-target="#exampleModalCenter"
+                    onClick={fetchTotalSavingBalance}
+                  >
+                    Transfer
+                  </button>
+                ) : (
+                  ""
+                )}
 
                 <div
                   class="modal fade"
@@ -801,265 +735,351 @@ export default function Shareholder() {
                       </div>
                       <div class="modal-body py-0">
                         <div className="row w-100">
-                          <div class="modal-body text-start">
-                            <div className="row mb-1 mt-0 pt-0">
-                              <label
-                                for="inputCash3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Balance in A/c
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputBalance3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputCash3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Transaction Type
-                              </label>
-                              <div class="col-sm-8">
-                                <select
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputEmail3"
+                          <div className="modal-body text-start">
+                            <form onSubmit={handleSubmit}>
+                              <div className="row mb-1 mt-0 pt-0">
+                                <label
+                                  htmlFor="inputBalance3"
+                                  className="col-sm-4 col-form-label"
                                 >
-                                  <option>Select Type</option>
+                                  Balance in A/c
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    value={totalSavingBalance}
+                                    id="inputBalance3"
+                                    name="totalSavingBalance"
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
+                              </div>
 
-                                  <option>Credit</option>
-                                  <option>Cheque</option>
-                                  <option>Bank Transfer</option>
-                                </select>
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputEmail3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Transaction Type
+                                </label>
+                                <div className="col-sm-8">
+                                  <select
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputEmail3"
+                                    name="transactionType"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  >
+                                    <option>Select Type</option>
+                                    <option>Credit</option>
+                                    <option>Cheque</option>
+                                    <option>Bank Transfer</option>
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputEmail3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Transaction Amount
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputBank3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Transaction Date
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="date"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
 
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Transaction Details
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputBank3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Transaction Amount
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="number"
+                                    className="form-control no-outline-login"
+                                    id="inputBank3"
+                                    name="transactionAmount"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Reciept/Voucher No.
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <hr className="pt-1 pb-1 m-0" />
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Cash Amount
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Bank Amount
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Transfer Amount
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
 
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label text-start"
-                              >
-                                Select Bank Transfer
-                              </label>
-                              <div class="col-sm-8">
-                                <select
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
                                 >
-                                  <option>Select Bank A/C</option>
-                                  <option>SBI Current A/C 2352665</option>
-                                  <option>SBI Saving A/C 2352665</option>
-                                  <option>Axis Current A/C 2352665</option>
-                                  <option>Transfer</option>
-                                  <option>Transfer to/from Saving</option>
-                                </select>
+                                  Transaction Date
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="date"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="transactionDate"
+                                    style={{ backgroundColor: "white" }}
+                                    value={currentDate}
+                                    required
+                                    onChange={(e) =>
+                                      setCurrentDate(e.target.value)
+                                    }
+                                    readOnly
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="row pb-1 mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                Cheque No.
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <hr className="m-0 pt-2"/>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                MICR Code
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label"
-                              >
-                                IFSC Code
-                              </label>
-                              <div class="col-sm-8">
-                                <input
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label text-start"
-                              >
-                                Select Bank Name
-                              </label>
-                              <div class="col-sm-8">
-                                <select
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
                                 >
-                                  <option>Select Bank A/C</option>
-                                  <option>SBI Current A/C 2352665</option>
-                                  <option>SBI Saving A/C 2352665</option>
-                                  <option>Axis Current A/C 2352665</option>
-                                  <option>Transfer</option>
-                                  <option>Transfer to/from Saving</option>
-                                </select>
+                                  Transaction Details
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="transactionDetails"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="row mb-1">
-                              <label
-                                for="inputTransfer3"
-                                class="col-sm-4 col-form-label text-start"
-                              >
-                                Select Bank Branch
-                              </label>
-                              <div class="col-sm-8">
-                                <select
-                                  type="text"
-                                  class="form-control no-outline-login"
-                                  id="inputTransfer3"
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
                                 >
-                                  <option>Select Bank A/C</option>
-                                  <option>SBI Current A/C 2352665</option>
-                                  <option>SBI Saving A/C 2352665</option>
-                                  <option>Axis Current A/C 2352665</option>
-                                  <option>Transfer</option>
-                                  <option>Transfer to/from Saving</option>
-                                </select>
+                                  Reciept/Voucher No.
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="receiptVoucherNo"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
                               </div>
-                            </div>
+
+                              <hr className="pt-1 pb-1 m-0" />
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Cash Amount
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="number"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="cashAmount"
+                                    onChange={handleAmount}
+                                    disabled={disablecash}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Bank Amount
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="number"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="bankAmount"
+                                    onChange={handleAmount}
+                                    disabled={disablebank}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Transfer Amount
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="number"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="transferAmount"
+                                    onChange={handleAmount}
+                                    disabled={disabletransfer}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label text-start"
+                                >
+                                  Select Bank Transfer
+                                </label>
+                                <div className="col-sm-8">
+                                  <select
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="selectedBankTransfer"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  >
+                                    <option>Select Bank A/C</option>
+                                    <option>SBI Current A/C 2352665</option>
+                                    <option>SBI Saving A/C 2352665</option>
+                                    <option>Axis Current A/C 2352665</option>
+                                    <option>Transfer</option>
+                                    <option>Transfer to/from Saving</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div className="row pb-1 mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  Cheque No.
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="chequeNo"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
+                              </div>
+
+                              <hr className="m-0 pt-2" />
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  MICR Code
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="micrCode"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label"
+                                >
+                                  IFSC Code
+                                </label>
+                                <div className="col-sm-8">
+                                  <input
+                                    type="text"
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="ifscCode"
+                                    required
+                                    onChange={handletransactionpurchase}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label text-start"
+                                >
+                                  Select Bank Name
+                                </label>
+                                <div className="col-sm-8">
+                                  <select
+                                    type="text"
+                                    required
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="selectedBankName"
+                                    
+                                    onChange={handletransactionpurchase}
+                                  >
+                                    <option>Select Bank A/C</option>
+                                    <option>SBI Current A/C 2352665</option>
+                                    <option>SBI Saving A/C 2352665</option>
+                                    <option>Axis Current A/C 2352665</option>
+                                    <option>Transfer</option>
+                                    <option>Transfer to/from Saving</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div className="row mb-1">
+                                <label
+                                  htmlFor="inputTransfer3"
+                                  className="col-sm-4 col-form-label text-start"
+                                >
+                                  Select Bank Branch
+                                </label>
+                                <div className="col-sm-8">
+                                  <select
+                                    type="text"
+                                    required
+                                    className="form-control no-outline-login"
+                                    id="inputTransfer3"
+                                    name="selectedBankBranch"
+                                    onChange={handletransactionpurchase}
+                                  >
+                                    <option>Select Bank Branch</option>
+                                    <option>Mumbai</option>
+                                    <option>Pune</option>
+                                    <option>Andheri</option>
+                                    <option>Ghatkopar</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-success"
+                          onClick={handleSubmit}
+                        >
+                          Transfer
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

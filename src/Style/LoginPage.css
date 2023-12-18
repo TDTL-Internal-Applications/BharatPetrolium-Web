@@ -90,4 +90,8 @@ img {
   .loginImg {
     height: 25rem;
   }
+}
+
+.form-control {
+  font-size: 16px !important;
 }/*# sourceMappingURL=LoginPage.css.map */

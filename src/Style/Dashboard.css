@@ -14,11 +14,15 @@
 
 .dashboard-area {
   padding-left: 16rem;
+  transition: padding-left 0.3s ease;
 }
 @media screen and (max-width: 767px) {
   .dashboard-area {
     padding-left: 5rem;
   }
+}
+.sidebar:not(.open) + .dashboard-area {
+  padding-left: 6rem;
 }
 
 .component-1 {

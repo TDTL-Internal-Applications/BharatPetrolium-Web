@@ -1,0 +1,90 @@
+.H1-Heading-Main{
+    font-size: 1.4rem;
+    font-weight:600;
+    color: #1E90FF;
+    padding-bottom: 4px;
+
+} 
+.First-Main-Row{
+   background-color: #F5F5F5;
+   border-radius: 10px;
+   padding-top: 8px;
+   padding-bottom: 8px;   
+}
+
+.H2-Sub-Heading{
+    display: flex;
+    justify-content: start;
+    color: #1E90FF;
+    font-weight:600;
+} 
+.small-label {
+    font-size: 0.8rem; 
+    margin-bottom: 0;
+  }
+
+  .form-control {
+    font-size: 12px !important;
+  }
+
+  .new-form-floating-label {
+    font-size: 12px;
+  }
+/* 
+  ::placeholder {
+    font-size: 8px; 
+  } */
+
+
+ 
+
+/* Updated styles with new class names and additional properties for form-floating */
+.new-form-control {
+    font-size: 0.875rem; /* Adjust the font size as needed */
+  }
+  
+  .new-form-floating-label {
+    font-size: 0.75rem; /* Adjust the font size as needed */
+  }
+  
+  .new-form-control {
+    height: 1.5rem; /* Adjust the height as needed */
+  }
+  
+  .new-form-floating {
+    margin-top: 0.5rem; /* Adjust the margin as needed */
+  }
+  
+  .new-row {
+    margin-bottom: 1rem; /* Adjust the margin as needed */
+  }
+  
+  /* Additional properties for form-floating */
+ 
+  
+  .form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+    height: calc(2rem + calc(var(--bs-border-width) * 2)) !important;
+    min-height: calc(2.8rem + calc(var(--bs-border-width) * 2)) !important;
+    line-height: 1.25 !important;
+}
+.Border-Red{
+  border: 1px solid red;
+  background-color: #f6e2e6;
+}
+.Border-Black{
+  border: 1px solid black;
+}
+
+
+.color{
+  background-color: #ffd209;
+ 
+}
+.inputFields{
+  width: 100%;
+  padding: 1px;
+}
+.labels{
+font-size: 15px;
+font-weight: 600;
+}
