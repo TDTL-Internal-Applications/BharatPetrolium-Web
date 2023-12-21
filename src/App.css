@@ -117,3 +117,15 @@
     justify-content: center;
   }
 }
+
+
+/* @media print {
+  .printbutton {
+    display: none;
+  }
+
+  #printable {
+    margin: 20px !important;
+  }
+} */
+

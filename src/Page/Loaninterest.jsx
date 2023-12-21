@@ -68,7 +68,7 @@ export default function Loaninterest() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const API = "http://127.0.0.1:8000/set_interest/";
+    const API = "http://bpcl.kolhapurdakshin.com:8000/set_interest/";
 
     try {
       const response = await axios.post(API, {

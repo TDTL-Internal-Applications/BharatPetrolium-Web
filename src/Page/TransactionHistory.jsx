@@ -80,7 +80,7 @@ export default function TransactionHistory() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/transaction_list/")
+      .get("http://bpcl.kolhapurdakshin.com:8000/transaction_list/")
       .then((response) => {
         if (Array.isArray(response.data.data)) {
           setData(response.data.data);

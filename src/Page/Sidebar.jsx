@@ -8,7 +8,8 @@ import { FaAngleDown } from "react-icons/fa";
 import { BsPersonSquare } from "react-icons/bs";
 import { RiLuggageDepositLine } from "react-icons/ri";
 import { RiAdminLine } from "react-icons/ri";
-import Logo from "../Images/LOGO.png";
+import { IoIosBook } from "react-icons/io";
+import Logo from "../Images/Credit-Logo.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -16,17 +17,144 @@ const Sidebar = () => {
   const adminName = localStorage.getItem("name");
   const userRole = localStorage.getItem("role_name");
   const navigate = useNavigate();
+  const [showRecurringDepositMenus, setShowRecurringDepositMenus] =
+    useState(false);
+
   const [showSubmenus, setShowSubmenus] = useState(false);
   const [showMemberSubmenus, setShowMemberSubmenus] = useState(false);
   const [showLoanSubmenus, setShowLoanSubmenus] = useState(false);
   const [showDepositmenus, setShowDepositmenus] = useState(false);
+  const [showTermDepositmenus, setShowTermDepositmenus] = useState(false);
+  const [showLakshaDepositmenus, setShowLakshaDepositmenus] = useState(false);
+  const [showDamDepositmenus, setShowDamDepositmenus] = useState(false);
+  const [showLakhpatiDepositmenus, setShowLakhpatiDepositmenus] =
+    useState(false);
+  const [showCashmenus, setShowCashmenus] = useState(false);
+  const [showLoanMenus, setShowLoanMenus] = useState(false);
+  const [showMedTermLoanMenus, setShowMedTermLoanMenus] = useState(false);
+  const [showEmergencyLoanMenus, setShowEmergencyLoanMenus] = useState(false);
+  const [showStaffEmergencyLoanMenus, setShowStaffEmergencyLoanMenus] =
+    useState(false);
+  const [showStaffMedTermLoanMenus, setShowStaffMedTermLoanMenus] =
+    useState(false);
+  const [showMemberDetailSubmenus, setShowMemberDetailSubmenus] =
+    useState(false);
+
+  const [showShareSubmenus, setShowShareSubmenus] = useState(false);
+  const [showDividendSubmenus, setShowDividendSubmenus] = useState(false);
+
+  const toggleCashtMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowTermDepositmenus(false);
+    setShowRecurringDepositMenus(false);
+    setShowDamDepositmenus(false);
+    setShowLakhpatiDepositmenus(false);
+    setShowCashmenus(!showCashmenus);
+    setIsOpen(true);
+    setShowLakshaDepositmenus(false);
+  };
+
+  const toggleLakhpatiDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowTermDepositmenus(false);
+    setShowRecurringDepositMenus(false);
+    setShowDamDepositmenus(false);
+    setShowLakhpatiDepositmenus(!showLakhpatiDepositmenus);
+    setIsOpen(true);
+    setShowRecurringDepositMenus(false);
+    setShowCashmenus(false);
+    setShowLakshaDepositmenus(false);
+  };
+
+  const toggleDamDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowTermDepositmenus(false);
+    setShowRecurringDepositMenus(false);
+    setShowDamDepositmenus(!showDamDepositmenus);
+    setIsOpen(true);
+    setShowRecurringDepositMenus(false);
+    setShowLakhpatiDepositmenus(false);
+    setShowCashmenus(false);
+    setShowLakshaDepositmenus(false);
+  };
+
+  const toggleRecurringDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowRecurringDepositMenus(!showRecurringDepositMenus);
+    setIsOpen(true);
+    // setShowTermDepositmenus(false)
+    setShowCashmenus(false);
+    setShowTermDepositmenus(false);
+    setShowLakshaDepositmenus(false);
+    setShowDamDepositmenus(false);
+    setShowLakhpatiDepositmenus(false);
+  };
+  const toggleTermDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowTermDepositmenus(!showTermDepositmenus);
+    setShowRecurringDepositMenus(false);
+    setIsOpen(true);
+    setShowRecurringDepositMenus(false);
+    setShowLakshaDepositmenus(false);
+    setShowLakhpatiDepositmenus(false);
+    setShowDamDepositmenus(false);
+    setShowCashmenus(false);
+  };
+  const toggleLakshaDepositMenus = () => {
+    setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(true);
+    setShowTermDepositmenus(false);
+    setShowLakshaDepositmenus(!showLakshaDepositmenus);
+    setShowRecurringDepositMenus(false);
+    setIsOpen(true);
+    setShowRecurringDepositMenus(false);
+    setShowCashmenus(false);
+    setShowDamDepositmenus(false);
+    setShowLakhpatiDepositmenus(false);
+  };
 
   const toggleMemberSubmenus = () => {
     setShowMemberSubmenus(!showMemberSubmenus);
     setShowSubmenus(false);
     setShowLoanSubmenus(false);
     setShowDepositmenus(false);
+    setShowLoanMenus(false);
+    setShowDividendSubmenus(false);
     setIsOpen(true);
+  };
+
+  const toggleShareMenus = () => {
+    setShowShareSubmenus(!showShareSubmenus);
+    setShowMemberSubmenus(true);
+    setShowSubmenus(false);
+    setShowLoanSubmenus(false);
+    setShowDepositmenus(false);
+    setShowMemberDetailSubmenus(false);
+    setShowDividendSubmenus(false);
+    setIsOpen(true);
+  };
+
+  const toggleDividendSubmenus = () => {
+    setShowDividendSubmenus(!showDividendSubmenus);
+    closeSubmenus();
+    setIsOpen(true);
+    setShowMemberSubmenus(true);
+    setShowShareSubmenus(false);
+  };
+  const toggleMemberDetailSubmenus = () => {
+    setShowMemberDetailSubmenus(!showMemberDetailSubmenus);
+    setShowShareSubmenus(false);
   };
 
   const toggleSubmenus = () => {
@@ -34,6 +162,7 @@ const Sidebar = () => {
     setShowLoanSubmenus(false);
     setShowMemberSubmenus(false);
     setShowDepositmenus(false);
+    setShowLoanMenus(false);
     setIsOpen(true);
   };
   const closeSubmenus = () => {
@@ -43,8 +172,10 @@ const Sidebar = () => {
     setShowDepositmenus(false);
   };
   const toggleLoanSubmenus = () => {
-    setShowLoanSubmenus(!showLoanSubmenus);
+    setShowLoanMenus(!showLoanMenus);
     setShowSubmenus(false);
+    setShowMemberSubmenus(false);
+    setShowDepositmenus(false);
     setShowMemberSubmenus(false);
     setShowDepositmenus(false);
     setIsOpen(true);
@@ -55,7 +186,45 @@ const Sidebar = () => {
     setShowSubmenus(false);
     setShowLoanSubmenus(false);
     setShowMemberSubmenus(false);
+    setShowLoanMenus(false);
     setIsOpen(true);
+  };
+
+  const toggleMedTermLoanMenus = () => {
+    closeSubmenus();
+    setShowMedTermLoanMenus(!showMedTermLoanMenus);
+    setIsOpen(true);
+    setShowEmergencyLoanMenus(false);
+    setShowStaffEmergencyLoanMenus(false);
+    setShowStaffMedTermLoanMenus(false);
+  };
+
+  const toggleEmergencyLoanMenus = () => {
+    closeSubmenus();
+    setShowEmergencyLoanMenus(!showEmergencyLoanMenus);
+    setIsOpen(true);
+    setShowMedTermLoanMenus(false);
+    setShowStaffEmergencyLoanMenus(false);
+    setShowStaffMedTermLoanMenus(false);
+    setShowMedTermLoanMenus(false);
+  };
+
+  const toggleStaffEmergencyLoanMenus = () => {
+    closeSubmenus();
+    setShowStaffEmergencyLoanMenus(!showStaffEmergencyLoanMenus);
+    setIsOpen(true);
+    setShowMedTermLoanMenus(false);
+    setShowStaffMedTermLoanMenus(false);
+    setShowEmergencyLoanMenus(false);
+  };
+
+  const toggleStaffMedTermLoanMenus = () => {
+    closeSubmenus();
+    setShowStaffMedTermLoanMenus(!showStaffMedTermLoanMenus);
+    setIsOpen(true);
+    setShowMedTermLoanMenus(false);
+    setShowEmergencyLoanMenus(false);
+    setShowStaffEmergencyLoanMenus(false);
   };
 
   const menuBtnChange = () => {
@@ -75,7 +244,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (windowWidth <= 767) {
+    if (windowWidth <= 992) {
       setIsOpen(false);
     } else {
       setIsOpen(true);
@@ -84,7 +253,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -102,15 +271,22 @@ const Sidebar = () => {
     e.stopPropagation();
   };
 
+  const stopPropagationRecurringDeposit = (e) => {
+    if (!e.target.closest(".submenu-recurring-deposit")) {
+      e.stopPropagation();
+    }
+  };
+
   const renderDropdownIcon = (shouldRender) => {
     if (!shouldRender) return null;
     return <FaAngleDown />;
   };
 
-  console.log("User Role:", {adminName});
-
   return (
-    <div className={`sidebar ${isOpen ? "open" : ""}`}>
+    <div
+      className={`sidebar ${isOpen ? "open" : ""}`}
+      style={{ height: "260px", overflow: "auto" }}
+    >
       <div className="logo_details">
         <img
           className="sidebar-logo"
@@ -155,23 +331,141 @@ const Sidebar = () => {
             {showMemberSubmenus && (
               <ul>
                 <li>
-                  <Link to="/new-member-registration" className="submenu link">
-                    <div className="ps-2">Add New</div>
+                  <Link
+                    className="submenu link"
+                    onClick={toggleMemberDetailSubmenus}
+                  >
+                    <div className="ps-2">Member</div>
+                    <i
+                      className={`dropdown-icon ${
+                        showMemberDetailSubmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showMemberDetailSubmenus && (
+                    <ul>
+                      <li>
+                        <Link
+                          to="/new-member-registration"
+                          className="submenu link"
+                        >
+                          <div className="ps-1">Add New</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/member-list" className="submenu link">
+                          <div className="ps-1">Member List</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/view-member-details"
+                          className="submenu link"
+                        >
+                          <div className="ps-1">View Member</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/kyc-update" className="submenu link">
+                          <div className="ps-1 text-start">KYC Update</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/bank-details-update" className="submenu link">
+                          <div className="ps-1 text-start">Bank Details Update</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/member-settlement-account-receipt" className="submenu link">
+                          <div className="ps-1 text-start">Settlement A/c Receipt</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/member-saving-deposit-receipt-payment-entry" className="submenu link">
+                          <div className="ps-1 text-start">Saving Deposit Reciept</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
+                {/* New Shareholder Option */}
                 <li>
-                  <Link to="/member-list" className="submenu link">
-                    <div className="ps-2">Member List</div>
+                  <Link className="submenu link" onClick={toggleShareMenus}>
+                    <div className="ps-2">Shareholder</div>
+                    <i
+                      className={`dropdown-icon ${
+                        showShareSubmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showShareSubmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/I-form" className="submenu link">
+                          <div className="ps-1">I Form</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/J-form" className="submenu link">
+                          <div className="ps-1">J Form</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shareholder-list" className="submenu link">
+                          <div className="ps-1">All Balance Book</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/purchase-shares" className="submenu link">
+                          <div className="ps-1">Purchase Share</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/cumulative-receipt-payment-entries" className="submenu link">
+                          <div className="ps-1 text-start">Cumulative Receipt & Payment Entries</div>
+                        </Link>
+                      </li>
+                    
+                    </ul>
+                  )}
                 </li>
+
                 <li>
-                  <Link to="/purchase-shares" className="submenu link">
-                    <div className="ps-2">Shareholder Members</div>
+                  <Link
+                    className="submenu link"
+                    onClick={toggleDividendSubmenus}
+                  >
+                    <div className="ps-2">Divident</div>
+                    <i
+                      className={`dropdown-icon ${
+                        showDividendSubmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showDividendSubmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/divident-payment" className="submenu link">
+                          <div className="ps-1">Payment</div>
+                        </Link>
+                      </li>
+                      {/* Add more submenu items as needed */}
+                    </ul>
+                  )}
                 </li>
               </ul>
             )}
           </li>
+
           <li onClick={stopPropagation}>
             <Link to="" className="link" onClick={toggleDepositmenus}>
               <i>
@@ -186,20 +480,291 @@ const Sidebar = () => {
 
             {showDepositmenus && (
               <ul>
-                <li>
-                  <Link to="/term-deposit" className="submenu link">
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleTermDepositMenus}
+                  >
                     <div className="ps-2">Term Deposit</div>
+                    <i
+                      className={`dropdown-icon ${
+                        toggleTermDepositMenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showTermDepositmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/term-deposit/new" className="submenu link">
+                          <div className="ps-2">New </div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/term-deposit/renew" className="submenu link">
+                          <div className="ps-2">Renew</div>
+                        </Link>
+                      </li>
+                      {/* <li>
+                        <Link
+                          to="/term-deposit/payment"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">Payment</div>
+                        </Link>
+                      </li> */}
+                      <li>
+                        <Link to="/term-deposit/view" className="submenu link">
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
-                <li>
-                  <Link to="/cash-certificate-deposit" className="submenu link">
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleLakshaDepositMenus}
+                  >
+                    <div className="ps-2">Ek Laksha Yojana </div>
+                    <i
+                      className={`dropdown-icon ${
+                        showLakshaDepositmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
+                  </Link>
+
+                  {showLakshaDepositmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/ek-laksha/new" className="submenu link">
+                          <div className="ps-2">New </div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/ek-laksha/renew" className="submenu link">
+                          <div className="ps-2">Renew</div>
+                        </Link>
+                      </li>
+                      {/* <li>
+                        <Link to="/ek-lakshya/payment" className="submenu link">
+                          <div className="ps-2">Payment</div>
+                        </Link>
+                      </li> */}
+                      <li>
+                        <Link
+                          to="/ek-laksha-yojana/view"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleDamDepositMenus}
+                  >
+                    <div className="ps-2">Dam Duppat </div>
+                    <i
+                      className={`dropdown-icon ${
+                        showDamDepositmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
+                  </Link>
+
+                  {showDamDepositmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/dam-duppat/new" className="submenu link">
+                          <div className="ps-2">New </div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/dam-duppat/renew" className="submenu link">
+                          <div className="ps-2">Renew</div>
+                        </Link>
+                      </li>
+                      {/* <li>
+                        <Link to="/dam-duppat/payment" className="submenu link">
+                          <div className="ps-2">Payment</div>
+                        </Link>
+                      </li> */}
+                      <li>
+                        <Link
+                          to="/dam-duppat-yojana/view"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleLakhpatiDepositMenus}
+                  >
+                    <div className="ps-2">Lakhpati Yojana</div>
+                    <i
+                      className={`dropdown-icon ${
+                        showLakhpatiDepositmenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
+                  </Link>
+
+                  {showLakhpatiDepositmenus && (
+                    <ul>
+                      <li>
+                        <Link to="/lakhpati/new" className="submenu link">
+                          <div className="ps-2">New </div>
+                        </Link>
+                      </li>
+                      {/* <li>
+                        <Link to="/lakhpati/payment" className="submenu link">
+                          <div className="ps-2">Payment </div>
+                        </Link>
+                      </li> */}
+                      <li>
+                        <Link
+                          to="/lakhpati-deposit/view"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleCashtMenus}
+                  >
                     <div className="ps-2">Cash Certificate</div>
+                    <i
+                      className={`dropdown-icon ${showCashmenus ? "open" : ""}`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showCashmenus && (
+                    <ul>
+                      <li>
+                        <Link
+                          to="/cash-certificate/new"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">New </div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/cash-certificate/renew"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">Renew</div>
+                        </Link>
+                      </li>
+                      {/* <li>
+                        <Link
+                          to="/cash-certificate/payment"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">Payment</div>
+                        </Link>
+                      </li> */}
+                      <li>
+                        <Link
+                          to="/cash-certificate-deposit/view"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
-                <li>
-                  <Link to="/recurring-deposit" className="submenu link">
-                    <div className="ps-2">Recurring Deposit</div>
+
+                <li
+                  onClick={stopPropagationRecurringDeposit}
+                  className="submenu-recurring-deposit"
+                >
+                  <Link
+                    to=""
+                    className="submenu link"
+                    onClick={toggleRecurringDepositMenus}
+                  >
+                    <div className="ps-2">Recurring </div>
+                    <i
+                      className={`dropdown-icon ${
+                        showRecurringDepositMenus ? "open" : ""
+                      }`}
+                    >
+                      {renderDropdownIcon(isOpen)}
+                    </i>
                   </Link>
+
+                  {showRecurringDepositMenus && (
+                    <ul>
+                      <li>
+                        <Link
+                          to="/recurring-deposit/new"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">New RD</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/recurring-deposit/payment"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">Payment</div>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/recurring-deposit/view"
+                          className="submenu link"
+                        >
+                          <div className="ps-2">View</div>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
               </ul>
             )}
@@ -210,12 +775,12 @@ const Sidebar = () => {
               <i>
                 <FaWallet />
               </i>
-              <span className="link_name">Transactions</span>
+              <span className="link_name">Accounts</span>
               <i className={`dropdown-icon ${showSubmenus ? "open" : ""}`}>
                 {renderDropdownIcon(isOpen)}
               </i>
             </Link>
-            <span className="tooltip">Transactions</span>
+            <span className="tooltip">Accounts</span>
 
             {showSubmenus && (
               <ul>
@@ -244,22 +809,226 @@ const Sidebar = () => {
             </Link>
             <span className="tooltip">Loans</span>
           </li>
-
-          {/* Submenus for Loans */}
-          {showLoanSubmenus && (
+          {showLoanMenus && (
             <ul>
-              <li>
-                <Link to="/add-new-loan" className="submenu link">
-                  <div className="ps-2">Add New Loan</div>
+              <li onClick={stopPropagation} className="submenu-loan">
+                <Link
+                  to=""
+                  className="submenu link"
+                  onClick={toggleMedTermLoanMenus}
+                >
+                  <div className="ps-2">Med Term Loan</div>
+                  <i
+                    className={`dropdown-icon ${
+                      showMedTermLoanMenus ? "open" : ""
+                    }`}
+                  >
+                    {renderDropdownIcon(isOpen)}
+                  </i>
                 </Link>
+
+                {showMedTermLoanMenus && (
+                  <ul>
+                    <li>
+                      <Link to="/medium-term-loan" className="submenu link">
+                        <div className="ps-2">Med Term Loan</div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/new-medium-term-loan" className="submenu link">
+                        <div className="ps-2">New Med Term</div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/view-medium-term-loan"
+                        className="submenu link"
+                      >
+                        <div className="ps-2">View Med Term</div>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </li>
-              <li>
-                <Link to="/loan-history" className="submenu link">
-                  <div className="ps-2">Loan History</div>
+              <li onClick={stopPropagation} className="submenu-loan">
+                <Link
+                  to=""
+                  className="submenu link"
+                  onClick={toggleEmergencyLoanMenus}
+                >
+                  <div className="ps-2">Emergency Loan</div>
+                  <i
+                    className={`dropdown-icon ${
+                      showEmergencyLoanMenus ? "open" : ""
+                    }`}
+                  >
+                    {renderDropdownIcon(isOpen)}
+                  </i>
                 </Link>
+
+                {showEmergencyLoanMenus && (
+                  <ul>
+                    <li>
+                      <Link to="/new-emergency-loan" className="submenu link">
+                        <div
+                          className="ps-1 text-start"
+                          style={{ fontSize: "15px" }}
+                        >
+                          New Emergency Loan
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/view-emergency-loan" className="submenu link">
+                        <div
+                          className="ps-1 text-start"
+                          style={{ fontSize: "15px" }}
+                        >
+                          View Emergency Loan
+                        </div>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li onClick={stopPropagation} className="submenu-loan">
+                <Link
+                  to=""
+                  className="submenu link"
+                  onClick={toggleStaffEmergencyLoanMenus}
+                >
+                  <div className="ps-2 text-start">Staff Emergency Loan</div>
+                  <i
+                    className={`dropdown-icon ${
+                      showStaffEmergencyLoanMenus ? "open" : ""
+                    }`}
+                  >
+                    {renderDropdownIcon(isOpen)}
+                  </i>
+                </Link>
+
+                {showStaffEmergencyLoanMenus && (
+                  <ul>
+                    <li>
+                      <Link
+                        to="/new-staff-emergency-loan"
+                        className="submenu link"
+                      >
+                        <div
+                          className="ps-1 text-start"
+                          style={{ fontSize: "15px" }}
+                        >
+                          New Emergency Loan
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/view-staff-emergency-loan"
+                        className="submenu link"
+                      >
+                        <div
+                          className="ps-1 text-start"
+                          style={{ fontSize: "15px" }}
+                        >
+                          View Emergency Loan
+                        </div>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li onClick={stopPropagation} className="submenu-loan">
+                <Link
+                  to=""
+                  className="submenu link"
+                  onClick={toggleStaffMedTermLoanMenus}
+                >
+                  <div className="ps-1 text-start">Staff Med Term Loan</div>
+                  <i
+                    className={`dropdown-icon ${
+                      showStaffMedTermLoanMenus ? "open" : ""
+                    }`}
+                  >
+                    {renderDropdownIcon(isOpen)}
+                  </i>
+                </Link>
+
+                {showStaffMedTermLoanMenus && (
+                  <ul>
+                    <li>
+                      <Link
+                        to="/new-staff-medium-term-loan"
+                        className="submenu link"
+                      >
+                        <div className="ps-1 text-start">
+                          New Staff Med Term
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/view-staff-medium-term-loan"
+                        className="submenu link"
+                      >
+                        <div className="ps-1 text-start">
+                          View Staff Med Term
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/staff-medium-term-loan-transaction"
+                        className="submenu link"
+                      >
+                        <div className="ps-1 text-start">
+                          Staff Med Term Transaction
+                        </div>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </li>
             </ul>
           )}
+
+          {/* Submenus for Loans */}
+          {/* {showLoanSubmenus && (
+            <ul>
+              <li>
+                <Link to="/medium-term-loan" className="submenu link">
+                  <div className="ps-2">Med Term Loan</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/view-medium-term-loan" className="submenu link">
+                  <div className="ps-2">View Med Term Loan</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/new-medium-term-loan" className="submenu link">
+                  <div className="ps-2">New Med Term Loan</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/new-staff-emergency-loan" className="submenu link">
+                  <div className="ps-2">Staff Emergency Loan</div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/view-staff-emergency-loan" className="submenu link">
+                  <div className="ps-2 text-start">View Staff Emergency<br/> Loan</div>
+                </Link>
+              </li>
+              
+            </ul>
+          )} */}
+
+          {/* <li>
+                <Link to="/loan-history" className="submenu link">
+                  <div className="ps-2">Loan History</div>
+                </Link>
+              </li> */}
 
           <li>
             <Link to="/loan-scheme" className="link">
@@ -268,7 +1037,7 @@ const Sidebar = () => {
             </Link>
             <span className="tooltip">Scheme</span>
           </li>
-          <li>
+          {/* <li>
             <Link to="/share-deposit" className="link">
               <i>
                 <SiMoneygram />
@@ -276,6 +1045,15 @@ const Sidebar = () => {
               <span className="link_name">Share & Deposit</span>
             </Link>
             <span className="tooltip">Share & Deposit</span>
+          </li> */}
+          <li>
+            <Link to="/print-passbook" className="link">
+              <i>
+                <IoIosBook />
+              </i>
+              <span className="link_name">Print Passbook</span>
+            </Link>
+            <span className="tooltip">Print Passbook</span>
           </li>
           <li>
             <Link to="/loan-interest" className="link">
@@ -286,7 +1064,7 @@ const Sidebar = () => {
             </Link>
             <span className="tooltip">Administrator</span>
           </li>
-         
+
         </ul>
       )}
 
@@ -321,32 +1099,44 @@ const Sidebar = () => {
             {showDepositmenus && (
               <ul>
                 <li>
-                  <Link to="/fd" className="submenu link">
+                  <Link to="/fd-transaction" className="submenu link">
                     <div className="ps-2">Fixed Deposit</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/member-rd" className="submenu link">
+                  <Link to="/rd-transaction" className="submenu link">
                     <div className="ps-2">Recurring Deposit</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/cash-certificate" className="submenu link">
+                  <Link
+                    to="/cash-certificate-transaction"
+                    className="submenu link"
+                  >
                     <div className="ps-2">Cash Certificate</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/daam-duppat" className="submenu link">
-                    <div className="ps-2">Daam Duppat</div>
+                  <Link
+                    to="/dam-duppat-yojana-transaction"
+                    className="submenu link"
+                  >
+                    <div className="ps-2">Dam Duppat</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/ek-lakh" className="submenu link">
-                    <div className="ps-2">Ek Laskh Yojana</div>
+                  <Link
+                    to="/ek-laksha-yojana-transaction"
+                    className="submenu link"
+                  >
+                    <div className="ps-2">Ek Laksha Yojana</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/lakhpati-yojana" className="submenu link">
+                  <Link
+                    to="/lakhpati-yojana-transaction"
+                    className="submenu link"
+                  >
                     <div className="ps-2">Lakhpati Yojana</div>
                   </Link>
                 </li>
@@ -396,22 +1186,17 @@ const Sidebar = () => {
               </ul>
             )}
           </li>
-          
         </ul>
       )}
-       <li className="profile">
-            <div className="profile_details">
-              <div className="profile_content">
-                <div className="name">{adminName}</div>
-                <div className="designation">{userRole}</div>
-              </div>
-            </div>
-            <i
-              className="bx bx-log-out"
-              id="log_out"
-              onClick={handleLogout}
-            ></i>
-          </li>
+      <li className="profile">
+        <div className="profile_details">
+          <div className="profile_content">
+            <div className="name">{adminName}</div>
+            <div className="designation">{userRole}</div>
+          </div>
+        </div>
+        <i className="bx bx-log-out" id="log_out" onClick={handleLogout}></i>
+      </li>
     </div>
   );
 };

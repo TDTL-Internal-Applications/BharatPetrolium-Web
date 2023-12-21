@@ -47,7 +47,7 @@ export default function EmployeeReg() {
     console.log("Form Data:", formData);
 
     axios
-      .post("http://127.0.0.1:8000/emp_reg/", formData)
+      .post("http://bpcl.kolhapurdakshin.com:8000/emp_reg/", formData)
       .then((response) => {
         console.log("Data submitted successfully:", response.data);
         Swal.fire({
