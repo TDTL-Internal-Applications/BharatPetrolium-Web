@@ -602,6 +602,7 @@ export default function CashCertificateDeposit() {
                           });
                         }}
                         min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>

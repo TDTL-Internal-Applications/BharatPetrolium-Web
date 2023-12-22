@@ -13,6 +13,9 @@ export default function CumulativePaymentEntryNew() {
     const [newData, setNewData] = useState("");
     const [data, setData] = useState([]);
     const [fullName , setFullName]=useState("")
+    let[accountNo,setAccountNo]=useState("");
+    let[contribution,setContribution]=useState("");
+    let[employeeNumber,setEmployeeNumber]=useState("");
     const getCurrentDate = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -24,38 +27,51 @@ export default function CumulativePaymentEntryNew() {
 
 
     const handleAccountNumberChange = async (newRDID) => {
-
+        setEmployeeNumber(newRDID);
         let dataArray = [];
         let inputObject = {
-            RDID: <input type="date" className="inputFields " value={getCurrentDate()} />,
-            member_id: <input type="number" className="inputFields " style={{ width: '90%' }} />,
-            MonthlyDeposit: <input type="text" className="inputFields " style={{ width: '90%' }} />,
-            InterestRate: <input type="number" className="inputFields " style={{ width: '90%' }} />,
-            deposit_period: <input type="number" className="inputFields " style={{ width: '90%' }} />,
-            MonthlyDeposit: <input type="number" className="inputFields " style={{ width: '90%' }} />,
-            MonthlyDeposit: <input type="number" className="inputFields " style={{ width: '90%' }} />,
-            MonthlyDeposit: <input type="text" className="inputFields " style={{ width: '90%' }} />,
+            Date: <input type="date" className="inputFields " style={{ width: '90%' }} value={getCurrentDate()} />,
+            RV_No: <input type="number" className="inputFields " style={{ width: '90%' }} />,
+            Particular: <input type="text" className="inputFields " style={{ width: '90%' }} />,
+            Cheque_No: <input type="number" className="inputFields " style={{ width: '90%' }} />,
+            Debit: <input type="number" className="inputFields " style={{ width: '90%' }} />,
+            Credit: <input type="number" className="inputFields " style={{ width: '90%' }} />,
+            Balance: <input type="number" className="inputFields " style={{ width: '90%' }} />,
+            User: <input type="text" className="inputFields " style={{ width: '90%' }} />,
         }
         const dataPost = {
           member_id: newRDID,
-          Account_type: "Term Deposit"
+          purchase_type: "Cumulative"
         }
         if (!newRDID) {
             setData("");
             return;
         }
         try {
-            const response = await axios.post("http://bpcl.kolhapurdakshin.com:8000/rd_history/", dataPost);
-            const jsonData = response.data.Output;
-            dataArray=jsonData;
-            dataArray.push(inputObject)
-            setData(dataArray)
+            const response = await axios.post("http://bpcl.kolhapurdakshin.com:8000/cumulative_deposit_receipt/", dataPost);
+            const jsonData=response.data.data;
+            console.log(jsonData);
 
-            setFullName(jsonData.full_name);
+            dataArray= jsonData;
+            dataArray.push(inputObject)
+            console.log(dataArray);
+
+
+            setData(dataArray);
+
+            let forName=await axios.post(`http://bpcl.kolhapurdakshin.com:8000/get_cummulative_receipt/`,
+            {
+                member_id: newRDID,
+            })
+            let forNameResponse=forName.data.data;
+
+
+            setFullName(forNameResponse.Name);
+            setAccountNo(forNameResponse['Account_No.']);
+            setContribution(forNameResponse.Contribution)
             // dataArray = jsonData.result;
             // dataArray.push(inputObject);
             // setData(dataArray);
-            // console.log(depositData);
         } catch (error) {
             console.error("Error fetching employee numbers:", error);
         }
@@ -70,55 +86,55 @@ export default function CumulativePaymentEntryNew() {
     const columns = [
         {
             name: 'Date',
-            selector: 'RDID',
+            selector: 'Date',
             sortable: true,
             center:true
         },
         {
             name: 'RV No.',
-            selector: 'member_id',
+            selector: 'RV_No',
             sortable: true,
             center:true
 
         },
         {
             name: 'Particular',
-            selector: 'MonthlyDeposit',
+            selector: 'Particular',
             sortable: true,
             center:true
 
         },
         {
             name: 'Cheque No.',
-            selector: 'InterestRate',
+            selector: 'Cheque_No',
             sortable: true,
             center:true
 
         },
         {
             name: 'Debit',
-            selector: 'deposit_period',
+            selector: 'Debit',
             sortable: true,
             center:true
 
         },
         {
             name: 'Credit',
-            selector: 'deposit_period',
+            selector: 'Credit',
             sortable: true,
             center:true
 
         },
         {
             name: 'Balance',
-            selector: 'deposit_period',
+            selector: 'Balance',
             sortable: true,
             center:true
 
         },
         {
             name: 'User',
-            selector: 'deposit_period',
+            selector: 'User',
             sortable: true,
             center:true
 
@@ -274,31 +290,31 @@ export default function CumulativePaymentEntryNew() {
                                                 id="rdId"
                                                 name="employeeno"
                                                 class="form-control small-placeholder mx-0"
-                                                // value=
+                                                value={employeeNumber}
                                                 onChange={(e) => handleAccountNumberChange(e.target.value)}
                                                 min={0}
                                             />
                                             {/* <div className="col-xl-6 col-lg-3 col-md-6 col-sm-6 text-start"> */}
                                             <div class="no-outline-login mt-1 ms-1">
                                                 <label for="" className="labels">
-                                                    Name  :  {fullName}
+                                                    Name  :  {(employeeNumber==="")?"":fullName}
                                                 </label>
                                                 {/* </div> */}
                                             </div>
                                         </div>
-                                        <div className="col-xl-7 col-lg-6 col-md-8 col-sm-6 text-start ">
+                                        <div className="col-xl-6 col-lg-5 col-md-8 col-sm-6 text-start ">
                                         </div>
 
 
-                                        <div className="col-xl-2 col-lg-3 col-md-8 col-sm-6 text-start ">
+                                        <div className="col-xl-3 col-lg-4 col-md-8 col-sm-6 text-start ">
                                             <label htmlFor="" className="labels ms-1">
                                                 Lock Amount : 0
                                             </label><br/>
                                             <label htmlFor="" className="labels ms-1">
-                                                Account No. : 4836
+                                                Account No. : {(employeeNumber==="")?"":accountNo}
                                             </label><br/>
                                             <label htmlFor="" className="labels ms-1">
-                                                Contribution : 13000
+                                                Contribution : {(employeeNumber==="")?"":contribution}
                                             </label>
                                         </div>
 
@@ -312,6 +328,7 @@ export default function CumulativePaymentEntryNew() {
                             <DataTable
                                 columns={columns}
                                 data={data}
+                                // data={data || []}
                                 customStyles={customStyles}
                                 striped
                                 dense

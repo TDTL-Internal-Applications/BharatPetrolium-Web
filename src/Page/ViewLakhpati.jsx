@@ -117,6 +117,7 @@ export default function ViewLakhpatiDeposit() {
                                                     handleAccountNumberChange(numericValue);
 
                                                 }}
+                                                maxLength={20}
                                             />
 
   

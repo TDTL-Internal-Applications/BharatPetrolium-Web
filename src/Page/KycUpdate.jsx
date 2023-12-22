@@ -330,7 +330,7 @@ export default function KYCUpdation() {
                     <select
                       type="text"
                       name="photoId"
-                      className="form-control small-label"
+                      className="form-select small-label"
                       id="photoId"
                       value={updatedMemberData.photoId}
                       onChange={handleInputChange}
@@ -368,6 +368,7 @@ export default function KYCUpdation() {
                       <input
                         type="text"
                         name="photono"
+                        maxLength={20}
                         className="form-control small-label"
                         value={updatedMemberData.photono}
                         onChange={handleInputChange}
@@ -413,7 +414,7 @@ export default function KYCUpdation() {
                     <select
                       type="text"
                       name="address_proof"
-                      class="form-control small-label"
+                      class="form-select small-label"
                       id="address_proof"
                       value={updatedMemberData.address_proof}
                       onChange={handleInputChange}
@@ -473,6 +474,7 @@ export default function KYCUpdation() {
                         name="addressno"
                         class="form-control small-label"
                         id="addressno"
+                        maxLength={20}
                         value={updatedMemberData.addressno}
                         // onChange={handleInputChange}
 
@@ -487,6 +489,7 @@ export default function KYCUpdation() {
                           });
                         }}
                         required
+                        
                       />
                     </div>
                   </div>
@@ -532,6 +535,7 @@ export default function KYCUpdation() {
                         name="pan_no"
                         className="form-control small-label"
                         id="pan_no"
+                        maxLength={10}
                         value={updatedMemberData.pan_no}
                         // onChange={handleInputChange}
                         pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}"
@@ -563,7 +567,10 @@ export default function KYCUpdation() {
                       id="floatingInput"
                       onChange={handleInputChange}
                     >
-                      <option></option>
+                      <option>Select an Option</option>
+                      <option>Yes</option>
+                      <option>No</option>
+
                     </select>
                   </div>
                   <div className="col-xl-2 col-lg-2 col-md-6 col-sm-6 text-start">
@@ -572,9 +579,12 @@ export default function KYCUpdation() {
                     </label>
                     <input
                       type="text"
+                      disabled
                       className="form-control small-placeholder"
                       id="floatingInput"
                       onChange={handleInputChange}
+                      maxLength={12}
+                      
                     />
                   </div>
                 </div>

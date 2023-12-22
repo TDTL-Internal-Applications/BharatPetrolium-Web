@@ -595,6 +595,7 @@ export default function EkLakshaYojanaDepositRenew() {
                           });
                         }}
                         min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>

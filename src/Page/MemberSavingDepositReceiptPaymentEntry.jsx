@@ -415,6 +415,7 @@ export default function MemberSavingDepositReceiptPaymentEntry() {
                       //   value={formData.TermInMonths}
                       //   onChange={handleChange}
                       min={0}
+                      maxLength={20}
                     />
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12 form-fields">

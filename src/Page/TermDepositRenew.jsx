@@ -600,6 +600,7 @@ export default function TermDepositRenew() {
                                                     });
                                                 }}
                                                 min={0}
+                                                maxLength={20}
                                             />
                                         </div>
                                     </div>

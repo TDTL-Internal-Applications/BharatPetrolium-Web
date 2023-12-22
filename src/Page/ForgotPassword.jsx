@@ -145,7 +145,7 @@ export default function ForgotPassword() {
             </div>
           </div>
           <div className="col-12 py-3">
-            <Link to="/login">
+            <Link to="/">
               <button
                 type="btn"
                 style={{

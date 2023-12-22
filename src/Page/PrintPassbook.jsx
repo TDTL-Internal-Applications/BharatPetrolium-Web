@@ -352,6 +352,9 @@ export default function PrintPassbook() {
       const style = document.createElement("style");
       style.innerHTML = `
         @media print {
+          @page {
+            size: 14in 9.5in landscape;
+          }
           .Passbookprint {
             display: none;
           }

@@ -117,6 +117,8 @@ export default function ViewCashCertificate() {
                                                     handleAccountNumberChange(numericValue);
 
                                                 }}
+                                                min={0}
+                                                maxLength={20}
                                             />
 
 

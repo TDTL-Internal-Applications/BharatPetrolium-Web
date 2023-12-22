@@ -326,6 +326,7 @@ export default function RecurringDepositClose() {
                           onChange={handleInputChange}
                           readOnly
                           min={0}
+                          maxLength={20}
                         />
                       </div>
                       <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12">

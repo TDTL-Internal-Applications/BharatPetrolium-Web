@@ -60,6 +60,14 @@ import Cumulativepaymententries from "./Page/CumulativePaymentEntryNew"
 import DividentInterest from "./Page/DividentInterest"
 import JournelEntries from "./Page/JournelEntries";
 import TransactionStaffMedTermLoan from "./Page/TransactionStaffMediumTermLoan";
+import Profile from "./MemberPages/Profile";
+import MemberRecurriing from "./MemberPages/Recurring"
+import FixedDeposit from "./MemberPages/FixedDeposit"
+import MemberCashCertificate from "./MemberPages/CashCertificate"
+import MemberDamDuppat from "./MemberPages/DamDuppat"
+import MemberEklaksha from "./MemberPages/Eklaksha"
+import MemberLakhpati from "./MemberPages/lakhpati"
+import UnderDevelopment from "./Page/Under_Development";
 
 
 
@@ -185,6 +193,25 @@ function App() {
 
          {/* Journel */}
          <Route path="/journel-entries" element={<JournelEntries/>}></Route>
+
+
+
+         {/* Member Dashboard */}
+         <Route path="/profile" element={<Profile/>}></Route>
+         <Route path="/recurring-transaction" element={<MemberRecurriing/>}></Route>
+         <Route path="/cash-certificate-transaction" element={<MemberCashCertificate/>}></Route>
+         <Route path="/dam-duppat-yojana-transaction" element={<MemberDamDuppat/>}></Route>
+         <Route path="/term-deposit-transaction" element={<FixedDeposit/>}></Route>
+         <Route path="/ek-laksha-yojana-transaction" element={<MemberEklaksha/>}></Route>
+         <Route path="/lakhpati-yojana-transaction" element={<MemberLakhpati/>}></Route>
+
+
+        
+         <Route path="/under-development" element={<UnderDevelopment/>}></Route>
+
+
+
+
 
 
         </Routes>

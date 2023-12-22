@@ -52,11 +52,24 @@ const MemberDataTable = () => {
   };
 
   
-  const filteredMembers = memberData.filter((member) =>
-  Object.values(member).some((value) =>
-    typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-);
+  // const filteredMembers = memberData.filter((member) => {
+  //   const fullName = `${member.first_name} ${member.middle_name} ${member.last_name}`;
+  //   return fullName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
+
+  const filteredMembers = memberData.filter((member) => {
+    const fullName = `${member.first_name} ${member.middle_name} ${member.last_name}`;
+    const memberId = member.member_id.toString(); 
+    const searchTermLower = searchTerm.toLowerCase();
+  
+    return (
+      fullName.toLowerCase().includes(searchTermLower) ||
+      memberId.includes(searchTermLower)
+    );
+  });
+  
+  
+
 
 
   useEffect(() => {
@@ -119,6 +132,7 @@ const MemberDataTable = () => {
       const style = document.createElement("style");
       style.innerHTML = `
         @media print {
+          
           .printbutton {
             display: none;
           }
@@ -173,7 +187,7 @@ const MemberDataTable = () => {
                       justifyContent: "center",
                     }}
                   >
-                    The B P C Employee's Co-op. Credit Society Ltd.
+                    The BPC Employee's Co-op. Credit Society Ltd.
                   </strong>
                 }
                 subHeader

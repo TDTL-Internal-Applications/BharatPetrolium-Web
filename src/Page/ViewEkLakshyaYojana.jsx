@@ -117,6 +117,7 @@ export default function ViewEkLakshyaYojana() {
                                                     handleAccountNumberChange(numericValue);
 
                                                 }}
+                                                maxLength={20}
                                             />
 
                                         </div>

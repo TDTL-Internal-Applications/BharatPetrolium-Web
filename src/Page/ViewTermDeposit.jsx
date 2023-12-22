@@ -119,6 +119,7 @@ export default function ViewTermDeposit() {
 
                           handleAccountNumberChange(numericValue);
                         }}
+                        maxLength={20}
                       />
                     </div>
                   </div>

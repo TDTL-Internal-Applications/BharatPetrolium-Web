@@ -1030,13 +1030,13 @@ const Sidebar = () => {
                 </Link>
               </li> */}
 
-          <li>
+          {/* <li>
             <Link to="/loan-scheme" className="link">
               <i class="bx bxs-offer"></i>
               <span className="link_name">Scheme</span>
             </Link>
             <span className="tooltip">Scheme</span>
-          </li>
+          </li> */}
           {/* <li>
             <Link to="/share-deposit" className="link">
               <i>
@@ -1099,12 +1099,12 @@ const Sidebar = () => {
             {showDepositmenus && (
               <ul>
                 <li>
-                  <Link to="/fd-transaction" className="submenu link">
+                  <Link to="/term-deposit-transaction" className="submenu link">
                     <div className="ps-2">Fixed Deposit</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/rd-transaction" className="submenu link">
+                  <Link to="/recurring-transaction" className="submenu link">
                     <div className="ps-2">Recurring Deposit</div>
                   </Link>
                 </li>
@@ -1159,27 +1159,27 @@ const Sidebar = () => {
                 <GiReceiveMoney />
               </i>
               <span className="link_name">Loans</span>
-              <i className={`dropdown-icon ${showLoanSubmenus ? "open" : ""}`}>
+              <i className={`dropdown-icon ${showLoanMenus ? "open" : ""}`}>
                 {renderDropdownIcon(isOpen)}
               </i>
             </Link>
             <span className="tooltip">Loans</span>
 
             {/* Submenus for Loans */}
-            {showLoanSubmenus && (
+            {showLoanMenus && (
               <ul>
                 <li>
-                  <Link to="/medium-term-loan" className="submenu link">
+                  <Link to="/under-development" className="submenu link">
                     <div className="ps-2">Medium Term</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/emergency-loan" className="submenu link">
+                  <Link to="/under-development" className="submenu link">
                     <div className="ps-2">Emergency Loan</div>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/deposit-loan" className="submenu link">
+                  <Link to="/under-development" className="submenu link">
                     <div className="ps-2">Deposit</div>
                   </Link>
                 </li>

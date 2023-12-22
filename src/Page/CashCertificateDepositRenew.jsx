@@ -570,6 +570,7 @@ export default function CashCertificateDepositRenew() {
                           });
                         }}
                         min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>

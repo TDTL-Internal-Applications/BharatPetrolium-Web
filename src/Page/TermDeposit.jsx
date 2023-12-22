@@ -238,7 +238,7 @@ export default function TermDeposit() {
     bankAcNo: "",
     ifscCode: "",
     uidNo: "",
-    effectDate: "",
+    effectDate: getCurrentDate(),
     effectAmount: "",
     interestProvisionDate: "",
     interestProvisionAmount: "",
@@ -622,6 +622,7 @@ export default function TermDeposit() {
                           });
                         }}
                         min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>

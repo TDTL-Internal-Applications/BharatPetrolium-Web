@@ -117,6 +117,7 @@ export default function ViewRecurringDeposit() {
                                                     handleAccountNumberChange(numericValue);
 
                                                 }}
+                                                maxLength={20}
                                             />
 
                                         </div>

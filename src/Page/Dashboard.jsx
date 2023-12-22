@@ -167,7 +167,7 @@ export default function Dashboard() {
                   className="col-lg-3 col-md-6 col-sm-12 py-1"
                   style={{ border: "4px solid white" }}
                 >
-                  <Link to="">
+                  <Link to="/under-development">
                     <div
                       className="col"
                       style={{
@@ -199,7 +199,7 @@ export default function Dashboard() {
                   className="col-lg-3 col-md-6 col-sm-12 py-1"
                   style={{ border: "4px solid white" }}
                 >
-                  <Link to="">
+                  <Link to="/under-development">
                     <div
                       className="col"
                       style={{
@@ -230,7 +230,7 @@ export default function Dashboard() {
                   className="col-lg-3 col-md-6 col-sm-12 py-1"
                   style={{ border: "4px solid white" }}
                 >
-                  <Link to="">
+                  <Link to="/under-development">
                     <div
                       className="col"
                       style={{
@@ -261,7 +261,7 @@ export default function Dashboard() {
                   className="col-lg-3 col-md-6 col-sm-12 py-1"
                   style={{ border: "4px solid white" }}
                 >
-                  <Link to="">
+                  <Link to="/profile">
                     <div
                       className="col"
                       style={{

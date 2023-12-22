@@ -118,6 +118,7 @@ export default function ViewDAMDuppatDeposit() {
                                                     handleAccountNumberChange(numericValue);
 
                                                 }}
+                                                maxLength={20}
                                             />
 
                                         </div>

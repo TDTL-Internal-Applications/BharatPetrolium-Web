@@ -43,10 +43,10 @@ export default function ShareHolderColumn() {
 
                       <div className="container d-flex text-start w-100 pb-1 ">
                           <div className=" d-flex flex-column justify-content-center mt-1  w-100 BPC-Employee-heading-box">
-                              <h2 className="text-center mb-2">The BPC Employee's Co-op. Credit Society Ltd.</h2>
-                              <h3 className="text-center">FORM 'l'</h3>
+                              <h2 className="text-center mb-2"><strong>The B P C Employee's Co-op. Credit Society Ltd.</strong></h2>
+                              <h3 className="text-center"><strong>FORM 'l'</strong></h3>
                               <p className="text-center">[See rule 32 and 65]</p>
-                              <h3 className="text-center">Register of Members</h3>
+                              <h3 className="text-center"><strong>Register of Members</strong></h3>
                               <p className="text-center">(Section 38(1) of the Maharashtra Co-operative Societies Act. 1960)</p>
                           </div>
                       </div>

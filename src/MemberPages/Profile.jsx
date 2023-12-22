@@ -21,9 +21,10 @@ export default function Profile() {
         image.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
-          canvas.width = 250;
-          canvas.height = 300;
-          ctx.drawImage(image, 0, 0, 250, 300);
+          const size = 2 * 20; // 2rem converted to pixels (assuming 1rem = 16px)
+          canvas.width = size;
+          canvas.height = size;
+          ctx.drawImage(image, 0, 0, size, size);
           const resizedImage = canvas.toDataURL("image/jpeg");
           setSelectedImage(resizedImage);
         };
@@ -69,7 +70,7 @@ export default function Profile() {
             {userData ? (
               <div
                 className="container d-flex py-2"
-                style={{ backgroundColor: "#0dcaf0", borderRadius: "10px" }}
+                style={{ backgroundColor: "#4db3c8", borderRadius: "15px" }}
               >
                 <form
                   class="row pe-3 ps-3 py-3 g-3 text-start text-white"
@@ -167,6 +168,10 @@ export default function Profile() {
                       type="email"
                       class="form-control"
                       value={userData.email}
+                      onChange={(e) => {
+                        const newEmail = e.target.value;
+                        setUserData((prevUserData) => ({ ...prevUserData, email: newEmail }));
+                      }}
                       
                     />
                   </div>
@@ -267,12 +272,17 @@ export default function Profile() {
                       type="tel"
                       class="form-control"
                       value={userData.mobile_no}
+                      onChange={(e) => {
+                        const newMobileNo = e.target.value;
+                        setUserData((prevUserData) => ({ ...prevUserData, mobile_no: newMobileNo }));
+                      }}
+                      maxLength={10}
                       
                     />
                   </div>
                   <div className="row pt-3 d-flex justify-content-center text-center">
                     <div className="col-2 ">
-                    <button type="btn" className="btn btn-success">Save Changes</button>
+                    <span type="btn" className="btn btn-success">Save Changes</span>
 
                     </div>
                   </div>

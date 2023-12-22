@@ -615,6 +615,7 @@ export default function RecurringDeposit() {
                         }}
                         // placeholder="Enter Account No"
                         min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>

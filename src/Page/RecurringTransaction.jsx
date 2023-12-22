@@ -600,6 +600,7 @@ export default function RDTansactions() {
                         name="accountNumber"
                         value={deposit && deposit.RDID}
                         // min={0}
+                        maxLength={20}
                       />
                     </div>
                   </div>
