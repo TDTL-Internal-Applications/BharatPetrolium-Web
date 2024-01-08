@@ -1,0 +1,33 @@
+ useEffect(() => {
+    axios
+      .post("http://bpcl.kolhapurdakshin.com:8000/member_names/")
+      .then((response) => {
+        // Assuming the member names are in response.data.members
+        const memberNamesArray = response.data.members || [];
+        console.log("membernamearray", memberNamesArray);
+        setMembers(memberNamesArray);
+      })
+      .catch((error) => {
+        console.error("Error fetching members:", error);
+      });
+  }, []);
+  console.log("selected", selectedMember);
+  useEffect(() => {
+    if (selectedMember) {
+      axios
+        .post(`http://bpcl.kolhapurdakshin.com:8000/fetch_member/`, {
+          member_name: selectedMember,
+        })
+        .then((response) => {
+          const jsondata = response.data.member_id["0"];
+          const member_id = jsondata.member_id;
+          setAccountId(member_id);
+          console.log("member id:", member_id);
+        })
+        .catch((error) => {
+          console.error("Error fetching account number:", error);
+        });
+    } else {
+      setAccountId("");
+    }
+  }, [selectedMember]);

@@ -47,7 +47,7 @@ export default function EmployeeReg() {
     console.log("Form Data:", formData);
 
     axios
-      .post("http://127.0.0.1:8000/emp_reg/", formData)
+      .post("http://bpcl.kolhapurdakshin.com:8000/emp_reg/", formData)
       .then((response) => {
         console.log("Data submitted successfully:", response.data);
         Swal.fire({
@@ -124,8 +124,6 @@ export default function EmployeeReg() {
                 title: "Member Already Exists",
                 text: errorMessage,
                 didOpen: () => {
-                  Swal.getPopup().style.background = "darkblue";
-                  Swal.getPopup().style.color = "#fff";
                   Swal.getPopup().style.borderRadius = "25px";
                   const confirmButton = Swal.getConfirmButton();
                   confirmButton.classList.add("custom-swal-button");
@@ -138,8 +136,6 @@ export default function EmployeeReg() {
                 title: "Already Exists",
                 text: errorMessage,
                 didOpen: () => {
-                  Swal.getPopup().style.background = "darkblue";
-                  Swal.getPopup().style.color = "#fff";
                   Swal.getPopup().style.borderRadius = "25px";
                   const confirmButton = Swal.getConfirmButton();
                   confirmButton.classList.add("custom-swal-button");
@@ -153,8 +149,6 @@ export default function EmployeeReg() {
               title: "Error",
               text: "Failed to submit data. Please try again.",
               didOpen: () => {
-                Swal.getPopup().style.background = "darkblue";
-                Swal.getPopup().style.color = "#fff";
                 Swal.getPopup().style.borderRadius = "25px";
                 const confirmButton = Swal.getConfirmButton();
                 confirmButton.classList.add("custom-swal-button");
@@ -168,8 +162,6 @@ export default function EmployeeReg() {
             title: "Error",
             text: "Failed to submit data. Please try again.",
             didOpen: () => {
-              Swal.getPopup().style.background = "darkblue";
-              Swal.getPopup().style.color = "#fff";
               Swal.getPopup().style.borderRadius = "25px";
               const confirmButton = Swal.getConfirmButton();
               confirmButton.classList.add("custom-swal-button");

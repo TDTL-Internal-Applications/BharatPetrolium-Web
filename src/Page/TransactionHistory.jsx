@@ -8,82 +8,76 @@ import { SiMicrosoftexcel } from "react-icons/si";
 
 const columns = [
   {
-    name: "Transaction ID",
-    selector: (row) => row.transaction_id,
-    sortable: true,
-  },
-  {
     name: "Account ID",
     selector: (row) => row.account_id,
-    sortable: true,
-  },
-  {
-    name: "Amount",
-    selector: (row) => row.amount,
-    cell: (row) => {
-      const amount = row.amount;
-      const transactionType = row.transaction_type;
-
-      let textColorClass;
-
-      if (transactionType === "Withdrawal") {
-        textColorClass = "text-danger";
-      } else if (transactionType === "Deposit") {
-        textColorClass = "text-success";
-      } else {
-        textColorClass = "";
-      }
-
-      return <span className={textColorClass}>{amount}</span>;
-    },
-    sortable: true,
+    // sortable: true,
   },
   {
     name: "Transaction Date",
     selector: (row) => row.transaction_date,
-    sortable: true,
-  },
-  {
-    name: "Transaction Type",
-    selector: (row) => row.transaction_type,
-    sortable: true,
+    // sortable: true,
   },
   {
     name: "Status",
     selector: (row) => row.Status,
-    cell: (row) => {
-      const status = row.Status;
-      let display, style;
+    // cell: (row) => {
+    //   const status = row.status;
+    //   let display, style;
 
-      if (status === "'I' (inprogress)") {
-        display = "In Progress";
-        style = "text-white bg-warning p-1 rounded";
-      } else if (status === "'C' (Completed)") {
-        display = "Completed";
-        style = "text-white bg-success p-1 rounded";
-      } else if (status === "'N' (Cancelled)" || status === "'R' (Reject)") {
-        display = "Cancelled";
-        style = "text-white bg-danger p-1 rounded";
-      } else {
-        display = status;
-        style = "text-muted p-1 rounded";
-      }
+    //   if (status === "'I' (inprogress)") {
+    //     display = "In Progress";
+    //     style = "text-white bg-warning p-1 rounded";
+    //   } else if (status === "'C' (Completed)") {
+    //     display = "Completed";
+    //     style = "text-white bg-success p-1 rounded";
+    //   } else if (status === "'N' (Cancelled)" || status === "'R' (Reject)") {
+    //     display = "Cancelled";
+    //     style = "text-white bg-danger p-1 rounded";
+    //   } else {
+    //     display = status;
+    //     style = "text-muted p-1 rounded";
+    //   }
 
-      return <span className={style}>{display}</span>;
-    },
-    sortable: true,
+    //   return <span className={style}>{display}</span>;
+    // },
+    // sortable: true,
+  },
+  {
+    name: "Particular",
+    selector: (row) => row.particular,
+    // sortable: true,
+  },
+  {
+    name: "Cheque No",
+    selector: (row) => row.cheque_no,
+    // sortable: true,
+  },
+  {
+    name: "Narration",
+    selector: (row) => row.naration,
+    // sortable: true,
+  },
+  {
+    name: "Operator",
+    selector: (row) => row.operator,
+    // sortable: true,
   },
 ];
 
 export default function TransactionHistory() {
   const [data, setData] = useState([]);
+  const [memberId, setMemberId] = useState("");
+  const [memberData, setMemberData] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/transaction_list/")
+      .post("http://bpcl.kolhapurdakshin.com:8000/transaction_list/", {
+        member_id: memberId,
+      })
       .then((response) => {
         if (Array.isArray(response.data.data)) {
           setData(response.data.data);
+          setMemberData(response.data.data);
         } else {
           console.error("API Response data is not an array:", response.data);
         }
@@ -91,26 +85,26 @@ export default function TransactionHistory() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [memberId]);
+
+  const handleMemberIdChange = (e) => {
+    const input = e.target.value;
+    // Allow only numbers in the input
+    if (/^\d*$/.test(input) || input === "") {
+      setMemberId(input);
+    }
+  };
 
   const exportToExcel = () => {
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(memberData)) {
       console.error("Invalid data format. Please provide an array.");
       return;
     }
-    const columnsForExport = [
-      { name: "Transaction ID", selector: (row) => row.transaction_id },
-      { name: "Account ID", selector: (row) => row.account_id },
-      { name: "Amount", selector: (row) => row.amount },
-      { name: "Transaction Date", selector: (row) => row.transaction_date },
-      { name: "Transaction Type", selector: (row) => row.transaction_type },
-      { name: "Status", selector: (row) => row.Status },
-    ];
     const fileName = "transactionsheet";
 
-    const exportData = data.map((row) => {
+    const exportData = memberData.map((row) => {
       const rowData = {};
-      columnsForExport.forEach((column) => {
+      columns.forEach((column) => {
         if (column.selector) {
           rowData[column.name] = column.selector(row);
         }
@@ -124,16 +118,33 @@ export default function TransactionHistory() {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "48px",
+        textAlign: "center",
+      },
+    },
+    headCells: {
+      style: {
+        minHeight: "40px",
+        backgroundColor: "#4db3c8",
+        fontSize: "14px",
+        fontWeight: "400",
+        color: "white",
+        textAlign: "center",
+      },
+    },
+  };
+
   return (
     <>
       <Sidebar />
       <div className="container-fluid dashboard-area d-flex">
         <div className="main-content p-4">
-          {/* Navbar */}
           <Header />
-          {/* Heading */}
           <div className="container d-flex text-start w-100 pb-1">
-          <div className="row w-100 align-items-center">
+            <div className="row w-100 align-items-center">
               <div className="col-6 text-start">
                 <h2 style={{ fontWeight: "bold", color: "dodgerblue" }}>
                   Transaction History
@@ -146,20 +157,42 @@ export default function TransactionHistory() {
                     cursor: "pointer",
                     color: "green",
                     fontSize: "1.5em",
+                    marginLeft: "10px",
                   }}
                 />
               </div>
             </div>
           </div>
 
+          {/* Member ID input */}
+          <div className="mb-3 d-flex">
+            <div className="col-3 text-start">
+              <label htmlFor="memberId" className="form-label">
+                Enter Member ID
+              </label>
+            </div>
+            <div className="col-4">
+              <input
+                type="text"
+                className="form-control"
+                id="memberId"
+                value={memberId}
+                onChange={handleMemberIdChange}
+              />
+            </div>
+          </div>
 
           {/* DataTable */}
-          <DataTable
-            // title="Transaction History"
-            columns={columns}
-            data={data}
-            pagination
-          />
+          {memberData.length > 0 && (
+            <DataTable
+              columns={columns}
+              data={memberData}
+              customStyles={customStyles}
+              striped
+              dense
+              pagination
+            />
+          )}
         </div>
       </div>
     </>

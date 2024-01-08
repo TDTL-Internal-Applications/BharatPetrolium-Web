@@ -68,6 +68,25 @@ export default function LoanScheme() {
 
   ]);
 
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "48px",
+        textAlign: "center",
+      },
+    },
+    headCells: {
+      style: {
+        minHeight: "40px",
+        backgroundColor: "#4db3c8",
+        fontSize: "14px",
+        fontWeight: "400",
+        color: "white",
+        textAlign: "center",
+      },
+    },
+  };
+
   const [dataLoaded, setDataLoaded] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
@@ -111,6 +130,11 @@ export default function LoanScheme() {
         icon: "info",
         title: "No rows selected",
         text: "Please select rows to delete.",
+        didOpen: () => {
+          Swal.getPopup().style.borderRadius = "25px";
+          const confirmButton = Swal.getConfirmButton();
+          confirmButton.classList.add("custom-swal-button");
+        },
       });
       return;
     }
@@ -123,6 +147,9 @@ export default function LoanScheme() {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
+      didOpen: () => {
+        Swal.getPopup().style.borderRadius = "25px";
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         const newData = data.filter((row) => !selectedRows.includes(row));
@@ -130,6 +157,7 @@ export default function LoanScheme() {
         setSelectedRows([]);
         setFilteredData(newData);
         Swal.fire("Deleted!", "Selected rows have been deleted.", "success");
+        
       }
     });
   };
@@ -154,28 +182,28 @@ export default function LoanScheme() {
       name: "ID",
       selector: (row) => row.id,
       sortable: true,
-      width: "150px",
+      // width: "150px",
       center: true,
     },
     {
       name: "Scheme Name",
       selector: (row) => row.schemeName,
       sortable: true,
-      width: "250px",
+      // width: "250px",
       center: true,
     },
     {
       name: "Maximum Loan Amount",
       selector: (row) => row.maximumAmount,
       sortable: true,
-      width: "250px",
+      // width: "250px",
       center: true,
     },
     {
       name: "Interest Rate",
       selector: (row) => `${row.interestRate}%`,
       sortable: true,
-      width: "150px",
+      // width: "150px",
       center: true,
     },
     {
@@ -184,57 +212,57 @@ export default function LoanScheme() {
         <div>
           <button
             type="button"
-            className="btn btn-primary mr-2"
+            className="btn mr-2"
             data-toggle="modal"
             data-target="#exampleModalCenter"
           >
-            <TiEdit size={20} />
+            <TiEdit size={20} color="#4db3c8" />
           </button>
-          <button className="btn btn-danger" onClick={handleDeleteSelected}>
-            <RiDeleteBinLine size={20} />
+          <button className="btn" onClick={handleDeleteSelected}>
+            <RiDeleteBinLine size={20} color="#dc3545" />
           </button>
         </div>
       ),
-      width: "200px",
+      // width: "200px",
       center: true,
     },
   ];
 
-  const tableCustomStyles = {
-    headRow: {
-      style: {
-        color: "white",
-        backgroundColor: "darkblue",
-        fontSize: "18px",
-        fontWeight: "400",
-        borderBottom: "1px solid #fff",
-        textAlign: "center",
-      },
-    },
-    rows: {
-      style: {
-        color: "black",
-        fontSize: "14px",
-        fontWeight: "normal",
-        textAlign: "center",
-        borderBottom: "3px solid #fff",
-      },
-    },
-    headCells: {
-      style: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
-        textAlign: "center",
-      },
-    },
-    cells: {
-      style: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
-        textAlign: "center",
-      },
-    },
-  };
+  // const tableCustomStyles = {
+  //   headRow: {
+  //     style: {
+  //       color: "white",
+  //       backgroundColor: "darkblue",
+  //       fontSize: "18px",
+  //       fontWeight: "400",
+  //       borderBottom: "1px solid #fff",
+  //       textAlign: "center",
+  //     },
+  //   },
+  //   rows: {
+  //     style: {
+  //       color: "black",
+  //       fontSize: "14px",
+  //       fontWeight: "normal",
+  //       textAlign: "center",
+  //       borderBottom: "3px solid #fff",
+  //     },
+  //   },
+  //   headCells: {
+  //     style: {
+  //       paddingLeft: "5px",
+  //       paddingRight: "5px",
+  //       textAlign: "center",
+  //     },
+  //   },
+  //   cells: {
+  //     style: {
+  //       paddingLeft: "5px",
+  //       paddingRight: "5px",
+  //       textAlign: "center",
+  //     },
+  //   },
+  // };
 
   return (
     <>
@@ -258,9 +286,8 @@ export default function LoanScheme() {
               }}
               className="form-control no-outline-login"
               style={{
-                borderRadius: "10px", // Adjust the value to your preference
-                padding: "8px", // Adjust padding as needed
-                // Add any other styles you need
+                borderRadius: "4px", 
+                padding: "8px", 
               }}
             />
           </div>
@@ -268,24 +295,24 @@ export default function LoanScheme() {
           <div className="col-2 text-end">
             <button
               type="button"
-              className="btn btn-info mr-2" 
+              className="btn mr-2" 
               onClick={() => window.location.reload()} 
             >
-              <LuRefreshCcw size={20} />
+              <LuRefreshCcw size={20} color="#4db3c8" fontWeight="bold"/>
             </button>
             <button
               type="button"
-              className="btn btn-success mr-2"
+              className="btn  mr-2"
               onClick={handleExportToExcel}
             >
-              <SiMicrosoftexcel size={20} />
+              <SiMicrosoftexcel size={20} color="green" />
             </button>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn "
               onClick={handleDeleteSelected}
             >
-              <RiDeleteBinLine size={20} />
+              <RiDeleteBinLine size={20} color="#dc3545" />
             </button>
           </div>
 
@@ -297,7 +324,9 @@ export default function LoanScheme() {
                     data={filteredData}
                     columns={columns}
                     style={{ textAlign: "center" }}
-                    customStyles={tableCustomStyles}
+                    customStyles={customStyles}
+                    striped
+                    dense
                     pagination
                     selectableRows
                     onSelectedRowsChange={handleRowSelected}

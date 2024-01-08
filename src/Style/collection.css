@@ -37,16 +37,17 @@
 /* Scrollbar Track for WebKit browsers */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+  background: dodgerblue;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: dodgerblue; /* Set the scrollbar color to skyblue */
+  background: #4DB3C8; /* Set the scrollbar color to skyblue */
   border-radius: 5px;
 }
 

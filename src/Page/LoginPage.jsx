@@ -41,7 +41,7 @@ export default function LoginPage() {
       });      return;
     }
     try {
-      const response = await axios.post("http://127.0.0.1:8000/member_login/", {
+      const response = await axios.post("http://bpcl.kolhapurdakshin.com:8000/member_login/", {
         email: email,
         password: password,
       });
@@ -113,7 +113,7 @@ export default function LoginPage() {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row p-5">
+        <div className="row d-flex justify-content-center  p-4">
           <div
             className="Client-name fs-1"
             style={{
@@ -126,7 +126,7 @@ export default function LoginPage() {
             The BPC Employees’ Co-op. Credit Society Ltd. 
           </div>
           <hr style={{background:"blue",color:"blue"}}/>
-          <div className="col-lg-7 col-md-12 col-sm-12 d-flex justify-content-center align-items-end py-2">
+          <div className="col-lg-7 col-md-12 col-sm-12 d-flex justify-content-center align-items-end py-1">
             <img className="loginImg" src={loginImg} alt=""  />
           </div>
           <div className="col-lg-5 col-md-12 col-sm-12 d-flex justify-content-center align-items-center " style={{background:"#027CC6",paddingBottom:"3rem"}} >
@@ -168,6 +168,11 @@ export default function LoginPage() {
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleLogin();
+                      }
+                    }}
                   />
                 </div>
                 <div className="mb-3">
@@ -192,6 +197,11 @@ export default function LoginPage() {
                     id="inputPassword"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleLogin();
+                      }
+                    }}
                   />
                 </div>
                 <div className="py-3">

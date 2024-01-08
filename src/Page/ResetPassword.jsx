@@ -57,7 +57,7 @@ export default function ResetPassword() {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/reset_password/3/`,
+        `http://bpcl.kolhapurdakshin.com:8000/reset_password/3/`,
         {
           newPassword: newPassword,
         }

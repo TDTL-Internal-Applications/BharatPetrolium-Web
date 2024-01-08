@@ -1,0 +1,14 @@
+.first-info-div{
+    width: 30% ;
+}
+.first-info-div-member
+{
+    margin-left: auto;
+}
+@media screen and (max-width:992px) {
+    .first-info-div-member
+    {
+        margin-left: 0;
+    }
+    
+}

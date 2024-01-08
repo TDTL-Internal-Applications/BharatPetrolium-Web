@@ -14,13 +14,25 @@
 
 .dashboard-area {
   padding-left: 16rem;
+  transition: padding-left 0.3s ease;
 }
+
+.dashboard-area-2 {
+  align-content: space-between;
+  flex-wrap: wrap !important;
+  min-height: 90vh;
+  overflow: auto;
+}
+
+.sidebar:not(.open) + .dashboard-area {
+  padding-left: 6rem;
+}
+
 @media screen and (max-width: 767px) {
   .dashboard-area {
     padding-left: 5rem;
   }
 }
-
 .component-1 {
   display: flex;
   justify-content: center;
