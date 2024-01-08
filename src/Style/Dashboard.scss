@@ -35,6 +35,18 @@
   }
   
   
+  .sidebar:not(.open) + .dashboard-area {
+    padding-left: 6rem;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .dashboard-area {
+      padding-left: 5rem;
+    }
+  
+  }
+  
+  
 
 .component-1{
     display: flex;

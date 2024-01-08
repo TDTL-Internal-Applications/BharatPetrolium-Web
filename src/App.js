@@ -82,7 +82,6 @@ import ForgotPassword3 from "./Page/ForgotPassword3"
 import AdminUpdateCredentials from "./Page/AdminUpdateCredentials"
 
 
-
 function App() {
 
  let[forgotPasswordEmail,setForgotPasswordEmail]=useState("");
@@ -145,6 +144,7 @@ function App() {
          {/* <Route path="/new-medium-term-loan" element={<NewMediumTermLoan/>}></Route> */}
          <Route path="/medium-term-loan-transaction" element={<TransactionMedTermLoan/>}></Route>
 
+         <Route path="/new-medium-term-loan" element={<NewMediumTermLoan/>}></Route>
          <Route path="/new-staff-emergency-loan" element={<NewStaffEmergencyLoan/>}></Route>
          <Route path="/view-staff-emergency-loan" element={<ViewStaffEmergencyLoan/>}></Route>
          <Route path="/new-emergency-loan" element={<NewEmergencyLoan/>}></Route>
@@ -159,7 +159,6 @@ function App() {
         <Route path="/term-deposit/renew" element={<TermDepositRenew/>}></Route>
         <Route path="/term-deposit/view" element={<ViewTermDeposit/>}></Route>
         <Route path="/term-deposit/close" element={<TermDepositClose/>}></Route>
-
 
         {/* Ek Laksha Yojana */}
         <Route path="/ek-laksha/new" element={<EklakshaDeposit/>}></Route>
@@ -215,7 +214,9 @@ function App() {
          {/* Journel */}
          <Route path="/journel-entries" element={<JournelEntries/>}></Route>
 
-           {/* Member Dashboard */}
+
+
+         {/* Member Dashboard */}
          <Route path="/profile" element={<Profile/>}></Route>
          <Route path="/recurring-transaction" element={<MemberRecurriing/>}></Route>
          <Route path="/cash-certificate-transaction" element={<MemberCashCertificate/>}></Route>
@@ -247,6 +248,11 @@ function App() {
 
         
          <Route path="/under-development" element={<UnderDevelopment/>}></Route>
+
+
+
+
+
 
         </Routes>
       {/* </Router> */}

@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "homepage": "http://bpcldashboard.kolhapurdakshin.com/",
+=======
+  "homepage": "http://54.67.114.13:8000/",
+>>>>>>> a87886c8daa8b43a1a8798735c807882190ceab5
   "name": "bpcl",
   "version": "0.1.0",
   "private": true,

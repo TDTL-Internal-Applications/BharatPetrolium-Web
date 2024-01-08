@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import loginImg from "../Images/Login-Side.png";
+import loginImg from "../Images/Login-Side.jpg";
 import "../Style/LoginPage.css";
 
 export default function LoginPage() {
