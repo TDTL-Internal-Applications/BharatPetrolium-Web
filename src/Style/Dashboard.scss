@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    z-index: 1000;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.icon-container {
+    gap: 5px;
+}
+.dashboard-area {
+    padding-left: 16rem;
+    transition: padding-left 0.3s ease;
+  }
+  .sidebar:not(.open) + .dashboard-area {
+    padding-left: 6rem;
+  }
+  
+  .dashboard-area-2{
+      align-content: space-between;
+      flex-wrap: wrap !important;
+      min-height: 90vh;
+      overflow: auto;
+    }
+  @media screen and (max-width: 767px) {
+    .dashboard-area {
+      padding-left: 5rem;
+    }
+  
+  }
+  
+  
+
+.component-1{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.component-2{
+    display: flex;
+    justify-content: center;
+}
+
+.custom-span{
+    text-decoration: underline white;
+    color: black;
+}
+
+  
+.chart{
+  @media screen and (max-width: 576px){
+    display: none;
+  }
+}

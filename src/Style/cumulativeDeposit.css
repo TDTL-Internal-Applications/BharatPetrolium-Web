@@ -1,0 +1,6 @@
+.inputf::-webkit-inner-spin-button,.inputf::-webkit-outer-spin-button{
+    display: none;
+}
+input[type="date"].inputf::-webkit-calendar-picker-indicator{
+    display: none;
+}

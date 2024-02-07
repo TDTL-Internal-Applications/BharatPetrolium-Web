@@ -1,0 +1,21 @@
+@media screen and (max-width:991px) {
+    .name-input,.top-select-box,.top-application-box{
+        width: 100% !important;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .top-parent-container{
+        gap: 1em;
+    }
+    .table-td{
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+.first-input{
+    background-color: transparent !important;
+}
+
+.table-td{
+    border-left: 1px solid grey;
+}

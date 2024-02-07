@@ -1,0 +1,29 @@
+.member-bank-details-container {
+    /* margin: 20px; */
+    padding: 20px;
+    border: 1px solid #c5c4c4;
+    border-radius: 10px;
+    background-color: #004F83;
+    color: white;
+
+  }
+  
+  .details-heading {
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .row {
+    margin-bottom: 15px;
+  }
+  
+  .col-4 {
+    font-weight: bold;
+  }
+  
+  .no-details-message {
+    color: #000000;
+    /* font-weight: bold; */
+    background-color: white;
+  }
+  

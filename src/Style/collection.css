@@ -1,0 +1,118 @@
+.clear-collection {
+  padding: 10px 40px 10px 40px;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 7px;
+  font-size: 24px;
+  background-color: #495057;
+}
+
+.get-otp-collection {
+  padding: 10px 25px 10px 25px;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 7px;
+  font-size: 24px;
+  background-color: rgb(55, 181, 231);
+}
+
+.otp-btn {
+  display: flex;
+  justify-content: start;
+}
+@media screen {
+  .otp-btn {
+    max-width: 992px;
+    justify-content: center;
+  }
+}
+
+.clear-btn {
+  display: flex;
+  justify-content: center;
+}
+
+/* Scrollbar Track for WebKit browsers */
+::-webkit-scrollbar {
+  width: 5px !important;
+  height: 10px !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: dodgerblue !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4DB3C8; /* Set the scrollbar color to skyblue */
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle on focus */
+::-webkit-scrollbar-thumb:focus {
+  background: #555;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: dodgerblue whitesmoke; /* Set the scrollbar color to skyblue */
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: whitesmoke;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: skyblue; /* Set the scrollbar color to skyblue */
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Handle on focus */
+*::-webkit-scrollbar-thumb:focus {
+  background: #555;
+}
+
+.scrollbar {
+  max-height: 250px;
+  overflow-y: auto;
+}
+@media screen and (max-width: 576px) {
+  .scrollbar {
+    max-height: 315px;
+  }
+}
+
+/* Force Chrome to use WebKit scrollbar styles */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Add your WebKit styles here */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+}
+.Property-owner-form {
+  padding-top: 7rem;
+  font-weight: bold;
+}
+@media screen and (max-width: 576px) {
+  .Property-owner-form {
+    padding-top: 12rem;
+    text-align: start;
+  }
+}/*# sourceMappingURL=collection.css.map */

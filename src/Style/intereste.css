@@ -1,0 +1,29 @@
+.data-table-interest {
+  overflow: auto;
+  /* Add any other default styles for your data table here */
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .data-table-interest {
+    width: 65rem;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1249px) {
+  .data-table-interest {
+    width: 65rem;
+  }
+}
+@media (min-width: 1250px) {
+  .data-table-interest {
+    width: 75rem;
+  }
+}
+@media (min-width: 600px) and (max-width: 767px) {
+  .data-table-interest {
+    width: 30rem;
+  }
+}
+@media (max-width: 599px) {
+  .data-table-interest {
+    width: 30rem;
+  }
+}/*# sourceMappingURL=intereste.css.map */
