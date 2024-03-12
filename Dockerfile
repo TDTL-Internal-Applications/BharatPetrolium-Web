@@ -11,8 +11,6 @@ RUN apt-get -y update && \
     chown -R www-data:www-data /var/lib/nginx || true
 
 
-# Install Python 3.10 and venv
-RUN apt-get install -y python3.10 python3.10-venv || { cat /var/log/apt/term.log ; exit 1; }
 
 # Create and activate virtual environment
 RUN python3 -m venv virtual_env
