@@ -1,4 +1,4 @@
-FROM httpd
+FROM python:3
 
 # Install required packages
 RUN apt-get -y update && \
