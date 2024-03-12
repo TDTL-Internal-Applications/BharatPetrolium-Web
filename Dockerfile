@@ -10,7 +10,8 @@ RUN apt-get -y update && \
     echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
     chown -R www-data:www-data /var/lib/nginx || true
 
-
+# Set working directory for the Django project
+WORKDIR /app
 
 # Create and activate virtual environment
 RUN python3 -m venv virtual_env
@@ -18,12 +19,10 @@ RUN /bin/bash -c "source virtual_env/bin/activate"
 
 # Install Python dependencies
 COPY requirements.txt /app/
-WORKDIR /app
 RUN pip install -r requirements.txt
 
-# Set working directory for Django
-WORKDIR /etc/nginx
-
+# Run Django migrations
+RUN python manage.py migrate
 
 # Expose the Django application on port 8000
 EXPOSE 8000
