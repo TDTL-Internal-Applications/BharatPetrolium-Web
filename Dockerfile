@@ -2,7 +2,7 @@ FROM python:3
 
 WORKDIR /etc/nginx/sites-available
 
-RUN apt install nginx -y 
+RUN sudo apt-get install -y nginx 
 RUN apt install python3.10-venv -y  
 RUN python3 -m venv virtual_env
 RUN source virtual_env/bin/activate
