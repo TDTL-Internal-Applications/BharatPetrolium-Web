@@ -7,6 +7,7 @@ RUN apt install nginx -y
     python3 -m venv virtual_env
     source virtual_env/bin/activate
     
+    
 COPY . .
 
 RUN python manage.py migrate
