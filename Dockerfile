@@ -1,7 +1,7 @@
 FROM python:3
 
-WORKDIR /etc/nginx/sites-available
-
+WORKDIR .
+RUN apt-get -y update
 RUN sudo apt-get install -y nginx 
 RUN apt install python3.10-venv -y  
 RUN python3 -m venv virtual_env
