@@ -3,10 +3,10 @@ FROM python:3
 WORKDIR /etc/nginx/sites-available
 
 RUN apt install nginx -y 
-  
-    
-    source virtual_env/bin/activate
-    pip install -r requirements.txt
+RUN apt install python3.10-venv -y  
+RUN python3 -m venv virtual_env
+RUN source virtual_env/bin/activate
+RUN pip install -r requirements.txt
     
 COPY . .
 
