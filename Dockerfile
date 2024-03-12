@@ -10,7 +10,8 @@ RUN apt-get -y update && \
     echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
     chown -R www-data:www-data /var/lib/nginx || true
 
-RUN apt-get install -y python3.10-venv
+# Install Python 3.10 and venv
+RUN apt-get install -y python3.10 python3.10-venv
 
 # Create and activate virtual environment
 RUN python3 -m venv virtual_env
