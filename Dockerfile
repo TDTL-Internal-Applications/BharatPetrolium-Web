@@ -24,8 +24,8 @@ RUN pip install -r requirements.txt
 # Set working directory for Django
 WORKDIR /etc/nginx
 
-# Run Django migrations
-RUN python manage.py migrate
+RUN /usr/local/bin/python manage.py migrate
+
 
 # Expose the Django application on port 8000
 EXPOSE 8000
