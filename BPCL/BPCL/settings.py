@@ -97,9 +97,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bpcldatabase',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',  # or your database host
+        'USER': 'dbmasteruser',
+        'PASSWORD': '123456789',
+        'HOST': 'ls-0015a179f2d407e43ff2c697687b72d50d0ce79e.cwrfbixeaner.ap-south-1.rds.amazonaws.com',  # or your database host
         'PORT': '3306',# or your database port
         'option':{
             'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'"
