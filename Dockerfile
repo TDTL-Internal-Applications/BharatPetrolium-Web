@@ -21,8 +21,7 @@ RUN /bin/bash -c "source virtual_env/bin/activate"
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-# Run Django migrations
-RUN python manage.py migrate
+
 
 # Expose the Django application on port 8000
 EXPOSE 8000
