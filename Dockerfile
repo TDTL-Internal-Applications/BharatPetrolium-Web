@@ -11,7 +11,7 @@ RUN apt-get -y update && \
     chown -R www-data:www-data /var/lib/nginx || true
 
 # Set working directory for the Django project
-WORKDIR /app
+WORKDIR .
 
 # Create and activate virtual environment
 RUN python3 -m venv virtual_env
