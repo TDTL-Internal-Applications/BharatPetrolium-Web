@@ -18,7 +18,7 @@ RUN python3 -m venv virtual_env
 RUN /bin/bash -c "source virtual_env/bin/activate"
 
 # Install Python dependencies
-COPY requirements.txt /app/
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN pip install django
 
