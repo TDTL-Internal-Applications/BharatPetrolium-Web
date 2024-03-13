@@ -1,14 +1,17 @@
 FROM python:3
 
-WORKDIR /data
+WORKDIR /app/backend
 
-RUN pip install django==3.2
+COPY requirements.txt /app/backend
+
+
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY . /app/backend
 
-RUN python manage.py migrate
+
 
 EXPOSE 8000
 
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
+
+CMD python /app/backend/manage.py runserver 0.0.0.0:8000
