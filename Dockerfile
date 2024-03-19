@@ -4,10 +4,12 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-ADD . /app
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-COPY ./requirements.txt /app/requirements.txt
-
+# Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+
+
 
 COPY. /app
