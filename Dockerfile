@@ -1,16 +1,29 @@
-FROM docker.io/library/python:3.8-slim-buster
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-RUN apt-get update && apt-get install -y \
-    pkg-config \
-    # Add any other build dependencies here if needed
-    && rm -rf /var/lib/apt/lists/*
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-COPY . .
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        gcc \
+        python3-dev \
+        libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# Expose the port django runs on
+EXPOSE 8000
+
+# Run the Django application
+CMD ["python", "BPCL/api/manage.py", "runserver", "0.0.0.0:8000"]
