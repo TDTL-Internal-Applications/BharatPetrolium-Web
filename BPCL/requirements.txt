@@ -11,4 +11,4 @@ sqlparse==0.4.4
 tzdata==2023.3
 urllib3==2.1.0
 gunicorn
-django-cors-headers
+corsheaders
