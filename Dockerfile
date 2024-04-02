@@ -11,7 +11,7 @@ RUN apt-get -y update && \
     chown -R www-data:www-data /var/lib/nginx || true
  
 # Set working directory for the Django project
-WORKDIR /mnt
+WORKDIR /mnt/BPCL_Backend/BPCL
  
  
 # Create and activate virtual environment
